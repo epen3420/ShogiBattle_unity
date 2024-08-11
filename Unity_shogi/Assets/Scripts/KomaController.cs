@@ -1,49 +1,37 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEditor.Callbacks;
 using UnityEngine;
 
 public class KomaController : MonoBehaviour
 {
-    private Vector3 mouseStartPos;
-    private Vector3 mouseEndPos;
-    private Vector3 flickDirection;
-    private float flickForceMultiplier = 10f; // 弾く力の強さを調整するための値
-
-    private Rigidbody rb;
-    private Camera mainCamera;
-
+    private bool swiped = false;
+    private InputManager inputManager;
+    private GameSceneManager gameSceneManager;
+    private float SwipeForceMultiplier = 10f;
     void Start()
     {
-        rb = GetComponent<Rigidbody>();
-        mainCamera = Camera.main;
+        inputManager = GameObject.Find("InputManager").GetComponent<InputManager>();
+        gameSceneManager = GameObject.Find("GameSceneManager").GetComponent<GameSceneManager>();
     }
-
     void Update()
     {
-        if (Input.GetMouseButtonDown(0))
+        if (!swiped && inputManager.MouseUp)
         {
-            // マウスの開始位置を記録
-            mouseStartPos = Input.mousePosition;
+            SwipeKoma(gameSceneManager.rb);
         }
-
-        if (Input.GetMouseButtonUp(0))
-        {
-            // マウスの終了位置を記録
-            mouseEndPos = Input.mousePosition;
-
-            // レイキャストを使ってワールド座標を取得
-            Ray rayStart = mainCamera.ScreenPointToRay(mouseStartPos);
-            Ray rayEnd = mainCamera.ScreenPointToRay(mouseEndPos);
-            if (Physics.Raycast(rayStart, out RaycastHit hitStart) && Physics.Raycast(rayEnd, out RaycastHit hitEnd))
-            {
-                Vector3 worldStartPos = hitStart.point;
-                Vector3 worldEndPos = hitEnd.point;
-
-                // 弾く方向と力を計算
-                flickDirection = (worldStartPos - worldEndPos).normalized;
-                float flickForce = (worldEndPos - worldStartPos).magnitude * flickForceMultiplier;
-
-                // Rigidbodyに力を適用
-                rb.AddForce(flickDirection * flickForce, ForceMode.Impulse);
-            }
-        }
+    }
+    public void SwipeKoma(Rigidbody rb)
+    {
+        //InputManagerのスワイプの距離を参照
+        Vector3 SwipeDistance = inputManager.SwipeMouse();
+        //スワイプの方向の算出
+        Vector3 SwipeDirection = -SwipeDistance.normalized;
+        //スワイプの力の算出
+        float SwipeForce = SwipeDistance.magnitude * SwipeForceMultiplier;
+        //Rigidbodyに力を加える
+        rb.AddForce(SwipeDirection * SwipeForce, ForceMode.Impulse);
+        swiped = true;
+        inputManager.MouseUp = false;
     }
 }
