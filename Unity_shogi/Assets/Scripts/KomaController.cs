@@ -5,22 +5,21 @@ using UnityEngine;
 
 public class KomaController : MonoBehaviour
 {
-    private bool swiped = false;
+    //スクリプトInputManagerを参照するための命名
     private InputManager inputManager;
-    private GameSceneManager gameSceneManager;
+    //スワイプ状況
+    public bool CanSwipe;
+    //スワイプの強さ
     private float SwipeForceMultiplier = 10f;
+
+
     void Start()
     {
+        CanSwipe = true;
+        //InputManagerの参照
         inputManager = GameObject.Find("InputManager").GetComponent<InputManager>();
-        gameSceneManager = GameObject.Find("GameSceneManager").GetComponent<GameSceneManager>();
     }
-    void Update()
-    {
-        if (!swiped && inputManager.MouseUp)
-        {
-            SwipeKoma(gameSceneManager.rb);
-        }
-    }
+
     public void SwipeKoma(Rigidbody rb)
     {
         //InputManagerのスワイプの距離を参照
@@ -31,7 +30,7 @@ public class KomaController : MonoBehaviour
         float SwipeForce = SwipeDistance.magnitude * SwipeForceMultiplier;
         //Rigidbodyに力を加える
         rb.AddForce(SwipeDirection * SwipeForce, ForceMode.Impulse);
-        swiped = true;
-        inputManager.MouseUp = false;
+        //スワイプ済み
+        CanSwipe = false;
     }
 }

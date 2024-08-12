@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class GameSceneManager : MonoBehaviour
+public class MainSceneManager : MonoBehaviour
 {
     //Camera,Rigidbodyの取得
     private Camera mainCamera;
@@ -13,23 +13,45 @@ public class GameSceneManager : MonoBehaviour
     [SerializeField] GameObject[] AllyKomas;
     [SerializeField] GameObject[] EnemyKomas;
     //駒の入れ替えのため駒の状況
-    private int Now_ally;
-    private int Now_Enemy;
+    public int Now_ally;
+    public int Now_Enemy;
     //オブジェクトの位置参照
     private Vector3 BoardPos = new Vector3(0, 0, 0);
     private Vector3 AllyPos = new Vector3(0.0f, 1.0f, -4.0f);
     private Vector3 EnemyPos = new Vector3(0.0f, 1.0f, 4.0f);
     //どっちのターンか
-    private bool Player_which = true;
+    public bool Player_which = true;
+    //スクリプトKomaController,InputManagerを参照するための命名
+    private KomaController komaController;
+    private InputManager inputManager;
+    //
+    public bool RoundEnd = false;
 
 
     void Start()
     {
+        Player_which = true;
+        //スクリプトInputManagerの取得
+        inputManager = GameObject.Find("InputManager").GetComponent<InputManager>();
+        //カメラの取得
         mainCamera = Camera.main;
         //初期設置
         ObjectsSet();
     }
 
+    void Update()
+    {
+        //スワイプしてなくて、ユーザー入力が終わっていたら
+        if (komaController.CanSwipe == true && inputManager.CanInput == false)
+        {
+            //スワイプ処理
+            komaController.SwipeKoma(rb);
+        }
+        if (komaController.CanSwipe == false && RoundEnd == false)
+        {
+            SwitchTurn();
+        }
+    }
 
     private void ObjectsSet()
     {
@@ -37,7 +59,21 @@ public class GameSceneManager : MonoBehaviour
         Board = Instantiate(Board, BoardPos, Quaternion.Euler(0, 180, 0));
         AllyKomas[Now_ally] = Instantiate(AllyKomas[Now_ally], AllyPos, Quaternion.Euler(0, 180, 0));
         EnemyKomas[Now_Enemy] = Instantiate(EnemyKomas[Now_Enemy], EnemyPos, Quaternion.identity);
-        AddComponent();
+        //
+        RoundEnd = false;
+
+        SetTurn();
+        //AddComponent();
+    }
+
+    public void SwitchTurn()
+    {
+        //プレイヤーの交代
+        Player_which = !Player_which;
+        //ユーザー入力をリセット
+        inputManager.CanInput = true;
+        //スワイプ状況のリセット
+        komaController.CanSwipe = true;
         SetTurn();
     }
 
@@ -50,6 +86,10 @@ public class GameSceneManager : MonoBehaviour
             mainCamera.gameObject.transform.rotation = Quaternion.Euler(70f, 0f, 0f);
             //1P駒のRigidbody
             rb = AllyKomas[Now_ally].GetComponent<Rigidbody>();
+            //KomaControllerを1Pの駒に付ける
+            AllyKomas[Now_ally].AddComponent<KomaController>();
+            //付けた1PのKomaControllerを参照
+            komaController = AllyKomas[Now_ally].GetComponent<KomaController>();
         }
         else
         {
@@ -58,13 +98,19 @@ public class GameSceneManager : MonoBehaviour
             mainCamera.gameObject.transform.rotation = Quaternion.Euler(70f, 180f, 0f);
             //2P駒のRigidbody
             rb = EnemyKomas[Now_Enemy].GetComponent<Rigidbody>();
+            //KomaControllerを2Pの駒に付ける
+            EnemyKomas[Now_Enemy].AddComponent<KomaController>();
+            //付けた2PのKomaControllerを参照
+            komaController = EnemyKomas[Now_Enemy].GetComponent<KomaController>();
         }
     }
 
+
     private void AddComponent()
     {
-        AllyKomas[Now_ally].AddComponent<KomaController>();
-        EnemyKomas[Now_Enemy].AddComponent<KomaController>();
+        /* AllyKomas[Now_ally].AddComponent<KomaController>();
+        EnemyKomas[Now_Enemy].AddComponent<KomaController>();*/
+
     }
 
 
@@ -74,6 +120,7 @@ public class GameSceneManager : MonoBehaviour
     private void OnTriggerExit(Collider DeadKoma)
     {
         //範囲外に出たオブジェクトを削除
-        Destroy(DeadKoma);
+        Destroy(DeadKoma.gameObject);
+        RoundEnd = true;
     }
 }

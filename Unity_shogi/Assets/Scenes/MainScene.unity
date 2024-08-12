@@ -153,6 +153,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   GetSwipeDistance: {x: 0, y: 0, z: 0}
+  CanInput: 1
 --- !u!4 &260142088
 Transform:
   m_ObjectHideFlags: 0
@@ -160,6 +161,50 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 260142086}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &703482948
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 703482950}
+  - component: {fileID: 703482949}
+  m_Layer: 0
+  m_Name: GameManager
+  m_TagString: GameManager
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &703482949
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 703482948}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f04bb40f5556474aaf6fe978cf8c371, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &703482950
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 703482948}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
@@ -262,65 +307,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
---- !u!1 &844568285
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 844568287}
-  - component: {fileID: 844568288}
-  m_Layer: 0
-  m_Name: GameSceneDirector
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 0
---- !u!4 &844568287
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 844568285}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 251.64246, y: 186.77126, z: -349.99112}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &844568288
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 844568285}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1d329c249748165449b3b88d6d36084d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  AllyKoma_obj:
-  - {fileID: 8076247684693982843, guid: 2ea05c842ac5f1342b97d9386a3e8c0d, type: 3}
-  - {fileID: 7473818320020366631, guid: fd4d92877e4f35e40bf17a3869ae558c, type: 3}
-  - {fileID: 4473078196754932250, guid: 1c4065d61485e3a41bb7174a3a4cbeab, type: 3}
-  - {fileID: 5726907445364283303, guid: 77c42e45a90e3f04cb6b4154508bb830, type: 3}
-  - {fileID: 8567271999047007392, guid: 3e9a5f92ade03d54b857b4fe75d7c28c, type: 3}
-  - {fileID: 2396122741671985411, guid: 97d23e21875047e45a81229225f062a8, type: 3}
-  EnemyKoma_obj:
-  - {fileID: 6675157702866101093, guid: 9937307edc9b16549b1ad7b7746b8990, type: 3}
-  - {fileID: 7049163345267232307, guid: b252685d8a72da54fb99ca0dd97232f8, type: 3}
-  - {fileID: 7164221966815633245, guid: 13ff4cb38cf576a479621a751311bfdc, type: 3}
-  - {fileID: 5726907445364283303, guid: 77c42e45a90e3f04cb6b4154508bb830, type: 3}
-  - {fileID: 8567271999047007392, guid: 3e9a5f92ade03d54b857b4fe75d7c28c, type: 3}
-  - {fileID: 2396122741671985411, guid: 97d23e21875047e45a81229225f062a8, type: 3}
-  prefabBoard: {fileID: 2053415131498230612, guid: 303e966d68a75b64f8882bf63fd9b9ec, type: 3}
 --- !u!1 &868676608
 GameObject:
   m_ObjectHideFlags: 0
@@ -432,43 +418,15 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 899017056}
-  - component: {fileID: 899017055}
   - component: {fileID: 899017057}
+  - component: {fileID: 899017058}
   m_Layer: 0
-  m_Name: GameSceneManager
-  m_TagString: Untagged
+  m_Name: MainSceneManager
+  m_TagString: MainSceneManager
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &899017055
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 899017054}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f7b5b1d1e98e22f4ca41babfd8a694a6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  rb: {fileID: 0}
-  Board: {fileID: 2053415131498230612, guid: 303e966d68a75b64f8882bf63fd9b9ec, type: 3}
-  AllyKomas:
-  - {fileID: 8076247684693982843, guid: 2ea05c842ac5f1342b97d9386a3e8c0d, type: 3}
-  - {fileID: 7473818320020366631, guid: fd4d92877e4f35e40bf17a3869ae558c, type: 3}
-  - {fileID: 4473078196754932250, guid: 1c4065d61485e3a41bb7174a3a4cbeab, type: 3}
-  - {fileID: 5726907445364283303, guid: 77c42e45a90e3f04cb6b4154508bb830, type: 3}
-  - {fileID: 8567271999047007392, guid: 3e9a5f92ade03d54b857b4fe75d7c28c, type: 3}
-  - {fileID: 2396122741671985411, guid: 97d23e21875047e45a81229225f062a8, type: 3}
-  EnemyKomas:
-  - {fileID: 6675157702866101093, guid: 9937307edc9b16549b1ad7b7746b8990, type: 3}
-  - {fileID: 7049163345267232307, guid: b252685d8a72da54fb99ca0dd97232f8, type: 3}
-  - {fileID: 7164221966815633245, guid: 13ff4cb38cf576a479621a751311bfdc, type: 3}
-  - {fileID: 5726907445364283303, guid: 77c42e45a90e3f04cb6b4154508bb830, type: 3}
-  - {fileID: 8567271999047007392, guid: 3e9a5f92ade03d54b857b4fe75d7c28c, type: 3}
-  - {fileID: 2396122741671985411, guid: 97d23e21875047e45a81229225f062a8, type: 3}
 --- !u!4 &899017056
 Transform:
   m_ObjectHideFlags: 0
@@ -505,6 +463,38 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &899017058
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 899017054}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f7b5b1d1e98e22f4ca41babfd8a694a6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rb: {fileID: 0}
+  Board: {fileID: 2053415131498230612, guid: 303e966d68a75b64f8882bf63fd9b9ec, type: 3}
+  AllyKomas:
+  - {fileID: 8076247684693982843, guid: 2ea05c842ac5f1342b97d9386a3e8c0d, type: 3}
+  - {fileID: 7473818320020366631, guid: fd4d92877e4f35e40bf17a3869ae558c, type: 3}
+  - {fileID: 4473078196754932250, guid: 1c4065d61485e3a41bb7174a3a4cbeab, type: 3}
+  - {fileID: 5726907445364283303, guid: 77c42e45a90e3f04cb6b4154508bb830, type: 3}
+  - {fileID: 8567271999047007392, guid: 3e9a5f92ade03d54b857b4fe75d7c28c, type: 3}
+  - {fileID: 2396122741671985411, guid: 97d23e21875047e45a81229225f062a8, type: 3}
+  EnemyKomas:
+  - {fileID: 6675157702866101093, guid: 9937307edc9b16549b1ad7b7746b8990, type: 3}
+  - {fileID: 7049163345267232307, guid: b252685d8a72da54fb99ca0dd97232f8, type: 3}
+  - {fileID: 7164221966815633245, guid: 13ff4cb38cf576a479621a751311bfdc, type: 3}
+  - {fileID: 5726907445364283303, guid: 77c42e45a90e3f04cb6b4154508bb830, type: 3}
+  - {fileID: 8567271999047007392, guid: 3e9a5f92ade03d54b857b4fe75d7c28c, type: 3}
+  - {fileID: 2396122741671985411, guid: 97d23e21875047e45a81229225f062a8, type: 3}
+  Now_ally: 0
+  Now_Enemy: 0
+  Player_which: 1
+  RoundEnd: 0
 --- !u!1 &963194225
 GameObject:
   m_ObjectHideFlags: 0
@@ -752,6 +742,6 @@ SceneRoots:
   - {fileID: 705507995}
   - {fileID: 868676612}
   - {fileID: 1832635360}
-  - {fileID: 844568287}
+  - {fileID: 703482950}
   - {fileID: 899017056}
   - {fileID: 260142088}
