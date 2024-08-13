@@ -7,7 +7,7 @@ public class MainSceneManager : MonoBehaviour
 {
     //Camera,Rigidbodyの取得
     private Camera mainCamera;
-    public Rigidbody rb;
+    private Rigidbody rb;
     //prefabの盤、駒を参照
     [SerializeField] GameObject Board;
     [SerializeField] GameObject[] AllyKomas;
@@ -36,13 +36,13 @@ public class MainSceneManager : MonoBehaviour
         //カメラの取得
         mainCamera = Camera.main;
         //初期設置
-        ObjectsSet();
+        SetObjects();
     }
 
     void Update()
     {
         //スワイプしてなくて、ユーザー入力が終わっていたら
-        if (komaController.CanSwipe == true && inputManager.CanInput == false)
+        if (komaController.CanSwipe == true && RoundEnd == false)
         {
             //スワイプ処理
             komaController.SwipeKoma(rb);
@@ -53,14 +53,13 @@ public class MainSceneManager : MonoBehaviour
         }
     }
 
-    private void ObjectsSet()
+    private void SetObjects()
     {
         //盤、駒の設置
         Board = Instantiate(Board, BoardPos, Quaternion.Euler(0, 180, 0));
         AllyKomas[Now_ally] = Instantiate(AllyKomas[Now_ally], AllyPos, Quaternion.Euler(0, 180, 0));
         EnemyKomas[Now_Enemy] = Instantiate(EnemyKomas[Now_Enemy], EnemyPos, Quaternion.identity);
         //
-        RoundEnd = false;
 
         SetTurn();
         //AddComponent();
@@ -90,6 +89,7 @@ public class MainSceneManager : MonoBehaviour
             AllyKomas[Now_ally].AddComponent<KomaController>();
             //付けた1PのKomaControllerを参照
             komaController = AllyKomas[Now_ally].GetComponent<KomaController>();
+            RoundEnd = false;
         }
         else
         {
@@ -102,6 +102,7 @@ public class MainSceneManager : MonoBehaviour
             EnemyKomas[Now_Enemy].AddComponent<KomaController>();
             //付けた2PのKomaControllerを参照
             komaController = EnemyKomas[Now_Enemy].GetComponent<KomaController>();
+            RoundEnd = false;
         }
     }
 
@@ -122,5 +123,32 @@ public class MainSceneManager : MonoBehaviour
         //範囲外に出たオブジェクトを削除
         Destroy(DeadKoma.gameObject);
         RoundEnd = true;
+        End();
+    }
+
+    private void End()
+    {
+        if (Player_which)
+        {
+            Destroy(AllyKomas[Now_ally]);
+            if (Now_ally < 6)
+                Now_ally++;
+            if (Now_Enemy > 0)
+                Now_Enemy--;
+        }
+        else
+        {
+            Destroy(EnemyKomas[Now_Enemy]);
+
+            if (Now_ally > 0)
+                Now_ally--;
+            if (Now_Enemy < 6)
+                Now_Enemy++;
+        }
+        Destroy(Board);
+        Player_which = true;
+        inputManager.CanInput = true;
+        komaController.CanSwipe = true;
+        SetObjects();
     }
 }
