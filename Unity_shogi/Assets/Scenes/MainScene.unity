@@ -152,6 +152,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a66ac3cb6a2a7f49aabe1b5ee73cdea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  GetMouseStartPos: {x: 0, y: 0, z: 0}
+  GetMouseEndPos: {x: 0, y: 0, z: 0}
   GetSwipeDistance: {x: 0, y: 0, z: 0}
   CanInput: 1
 --- !u!4 &260142088
@@ -185,7 +187,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &703482949
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -193,7 +195,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 703482948}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3f04bb40f5556474aaf6fe978cf8c371, type: 3}
   m_Name: 
