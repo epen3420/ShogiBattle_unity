@@ -10,17 +10,17 @@ public class InputManager : MonoBehaviour
     //Ray時の位置の変数
     private Vector3 WorldStartPos;
     private Vector3 WorldEndPos;
-    //KomaControllerに返す変数
-    public Vector3 GetSwipeDistance;
     //カメラの定義
     private Camera mainCamera;
-    //ユーザー入力の状況
-    public bool CanInput = true;
+    //スクリプトMainSceneManagerを参照するための命名
+    private MainSceneManager mainSceneManager;
+
 
     void Start()
     {
-        //カメラの設定
+        //カメラ,MainSceneManagerの取得
         mainCamera = Camera.main;
+        mainSceneManager = GameObject.Find("MainSceneManager").GetComponent<MainSceneManager>();
     }
 
     void Update()
@@ -31,14 +31,16 @@ public class InputManager : MonoBehaviour
             //マウススワイプ開始時の位置の取得
             GetMouseStartPos = Input.mousePosition;
         }
+        //マウスクリックを離した時
         if (Input.GetMouseButtonUp(0))
         {
             //マウススワイプ終了時の位置の取得
             GetMouseEndPos = Input.mousePosition;
-            //ユーザー入力の終了
-            CanInput = false;
+            //MainSceneManagerにスワイプの間隔を知らせる
+            mainSceneManager.ShootKoma(SwipeMouse());
         }
     }
+
     public Vector3 SwipeMouse()
     {
         //Rayとしてスワイプ開始時、終了時の位置を変換

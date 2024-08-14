@@ -19,12 +19,12 @@ public class GameManager : MonoBehaviour
 
   void Update()
   {
-    if (mainSceneManager.RoundEnd)
+    /* if ()
     {
-      RoundWinner = mainSceneManager.Player_which;
+      RoundWinner = mainSceneManager.isPlayerTurn;
       Debug.Log(RoundWinner);
       StartCoroutine(Gameloop());
-    }
+    } */
   }
 
   private IEnumerator Gameloop()
@@ -40,7 +40,7 @@ public class GameManager : MonoBehaviour
 
   /*   private void IsWinner()
     {
-      RoundWinner = !mainSceneManager.Player_which;
+      RoundWinner = !mainSceneManager.isPlayerTurn;
       if (RoundWinner)
       {
         mainSceneManager.Now_ally++;

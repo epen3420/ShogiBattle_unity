@@ -96,6 +96,7 @@ GameObject:
   - component: {fileID: 8378629834537639828}
   - component: {fileID: 3129317606962712077}
   - component: {fileID: -7679144223850797608}
+  - component: {fileID: -596709119425187077}
   m_Layer: 0
   m_Name: Kaku
   m_TagString: Player
@@ -217,3 +218,16 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &-596709119425187077
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7049163345267232307}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9beaad212f3d5248a9e69b9d61e862e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CanSwipe: 0
