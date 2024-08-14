@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class InputManager : MonoBehaviour
@@ -9,8 +8,10 @@ public class InputManager : MonoBehaviour
     private Vector3 GetMouseStartPos;
     private Vector3 GetMouseEndPos;
     //Ray時の位置の変数
-    private Vector3 GetWorldStartPos;
-    private Vector3 GetWorldEndPos;
+    private Vector3 WorldStartPos;
+    private Vector3 WorldEndPos;
+    //KomaControllerに返す変数
+    public Vector3 GetSwipeDistance;
     //カメラの定義
     private Camera mainCamera;
     //ユーザー入力の状況
@@ -38,10 +39,8 @@ public class InputManager : MonoBehaviour
             CanInput = false;
         }
     }
-
-    public Vector3 GetSwipe()
+    public Vector3 SwipeMouse()
     {
-
         //Rayとしてスワイプ開始時、終了時の位置を変換
         Ray rayStart = mainCamera.ScreenPointToRay(GetMouseStartPos);
         Ray rayEnd = mainCamera.ScreenPointToRay(GetMouseEndPos);
@@ -49,10 +48,10 @@ public class InputManager : MonoBehaviour
         if (Physics.Raycast(rayStart, out RaycastHit hitStart) && Physics.Raycast(rayEnd, out RaycastHit hitEnd))
         {
             //スワイプの開始と終了をRayとして取得
-            GetWorldStartPos = hitStart.point;
-            GetWorldEndPos = hitEnd.point;
+            WorldStartPos = hitStart.point;
+            WorldEndPos = hitEnd.point;
         }
-        //スワイプの距離として返す
-        return GetWorldEndPos - GetWorldStartPos;
+        //結果としてスワイプの間隔を返す
+        return WorldEndPos - WorldStartPos;
     }
 }
