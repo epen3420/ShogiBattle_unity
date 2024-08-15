@@ -8,12 +8,13 @@ public class MainSceneManager : MonoBehaviour
     //Cameraの取得
     private Camera mainCamera;
     //prefabの盤、駒の定義
-    [SerializeField] GameObject Board;
+    [SerializeField] GameObject prefabBoard;
     [SerializeField] GameObject[] AllyKomas;
     [SerializeField] GameObject[] EnemyKomas;
     //盤面にある駒の参照
-    private GameObject Now_ally_Koma;
-    private GameObject Now_Enemy_Koma;
+    public GameObject Now_ally_Koma;
+    public GameObject Now_Enemy_Koma;
+    public GameObject Board;
     //駒の入れ替えのため駒の状況
     public int Now_ally;
     public int Now_Enemy;
@@ -31,11 +32,15 @@ public class MainSceneManager : MonoBehaviour
     //true:1P, false:2P
     public bool isPlayerTurn;
     //スクリプトKomaControllerを参照するための命名
+    private GameManager gameManager;
     private KomaController NowControlling_KomaController;
+    private UIManager uIManager;
 
 
     void Start()
     {
+        uIManager = GameObject.Find("UIManager").GetComponent<UIManager>();
+        gameManager = GameObject.FindWithTag("GameManager").GetComponent<GameManager>();
         //カメラの取得
         mainCamera = Camera.main;
         //プレイヤーターンを初期化
@@ -44,16 +49,16 @@ public class MainSceneManager : MonoBehaviour
         ObjectsSet();
     }
 
-    private void ObjectsSet()
+    public void ObjectsSet()
     {
+        uIManager.TurnInfo(isPlayerTurn);
         //盤、駒の設置
-        Board = Instantiate(Board, BoardPos, BoardRotate);
+        Board = Instantiate(prefabBoard, BoardPos, BoardRotate);
         Now_ally_Koma = Instantiate(AllyKomas[Now_ally], AllyPos, AllyRotate);
         Now_Enemy_Koma = Instantiate(EnemyKomas[Now_Enemy], EnemyPos, EnemyRotate);
         //ターンをセット
         SetTurn();
     }
-
 
     private void SetTurn()
     {
@@ -79,6 +84,7 @@ public class MainSceneManager : MonoBehaviour
     {
         //プレイヤーの交代
         isPlayerTurn = !isPlayerTurn;
+        uIManager.TurnInfo(isPlayerTurn);
         //ターンをセット
         SetTurn();
     }
@@ -89,14 +95,16 @@ public class MainSceneManager : MonoBehaviour
         NowControlling_KomaController.SwipeKoma(vector3);
         //スワイプが終わったらターンを切り替える
         SwitchTurn();
+        //Invoke("SwitchTurn", 2.0f);//ここは死ぬのに2秒間かかった場合SwitchTurnの条件分岐でミスる
     }
 
 
     //アタッチされているオブジェクトにColiderがついている。
     //範囲外にオブジェクト（駒）が出たら検知
-    private void OnTriggerExit(Collider DeadKoma)
+    private void OnTriggerExit(Collider fallobj)
     {
         //範囲外に出たオブジェクトを削除
-        Destroy(DeadKoma.gameObject);
+        Destroy(fallobj.gameObject);
+        gameManager.RoundEnd(fallobj.gameObject);
     }
 }

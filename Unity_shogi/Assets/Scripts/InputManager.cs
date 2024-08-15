@@ -20,7 +20,7 @@ public class InputManager : MonoBehaviour
     {
         //カメラ,MainSceneManagerの取得
         mainCamera = Camera.main;
-        mainSceneManager = GameObject.Find("MainSceneManager").GetComponent<MainSceneManager>();
+        mainSceneManager = GameObject.FindWithTag("MainSceneManager").GetComponent<MainSceneManager>();
     }
 
     void Update()

@@ -1,67 +1,78 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
-  private bool RoundWinner;
-  private int Next_Koma;
   private MainSceneManager mainSceneManager;
+  private GameObject mainSceneManager_obj;
+  private GameObject inputManager_obj;
 
 
   void Start()
   {
-    mainSceneManager = GameObject.Find("MainSceneManager").GetComponent<MainSceneManager>();
-    mainSceneManager.Now_ally = Next_Koma;
+    mainSceneManager_obj = GameObject.FindWithTag("MainSceneManager");
+    mainSceneManager = mainSceneManager_obj.GetComponent<MainSceneManager>();
+    inputManager_obj = GameObject.Find("InputManager");
   }
 
-  void Update()
+  /* private void StartManager(bool Active)
   {
-    /* if ()
-    {
-      RoundWinner = mainSceneManager.isPlayerTurn;
-      Debug.Log(RoundWinner);
-      StartCoroutine(Gameloop());
-    } */
-  }
+    mainSceneManager_obj.SetActive(Active);
+    inputManager_obj.SetActive(Active);
+  } */
 
-  private IEnumerator Gameloop()
+  public void RoundEnd(GameObject RoundLooser)
   {
-    /* mainSceneManager.RoundProcess = true;
-    yield return new WaitForSeconds(0.5f);
-    IsWinner();
-    yield return new WaitForSeconds(0.5f); */
-    yield return new WaitForSeconds(0.5f);
-    Next_Koma++;
-    Reset();
-  }
-
-  /*   private void IsWinner()
+    GameObject AllyKoma = mainSceneManager.Now_ally_Koma;
+    GameObject EnemyKoma = mainSceneManager.Now_Enemy_Koma;
+    Destroy(mainSceneManager.Board);
+    if (RoundLooser == AllyKoma)
     {
-      RoundWinner = !mainSceneManager.isPlayerTurn;
-      if (RoundWinner)
-      {
-        mainSceneManager.Now_ally++;
-      }
-      else
-      {
+      if (mainSceneManager.Now_Enemy == 5)
+        Debug.Log("winner" + EnemyKoma);
+      if (mainSceneManager.Now_Enemy < 5)
         mainSceneManager.Now_Enemy++;
-      }
-    } */
-
-  private void Reset()
-  {
-    SceneManager.sceneLoaded += GameSceneLoaded;
-
-    SceneManager.LoadScene("MainScene");
+      if (mainSceneManager.Now_ally > 0)
+        mainSceneManager.Now_ally--;
+      Destroy(EnemyKoma);
+    }
+    if (RoundLooser == EnemyKoma)
+    {
+      if (mainSceneManager.Now_ally == 5)
+        Debug.Log("winner" + AllyKoma);
+      if (mainSceneManager.Now_ally < 5)
+        mainSceneManager.Now_ally++;
+      if (mainSceneManager.Now_Enemy > 0)
+        mainSceneManager.Now_Enemy--;
+      Destroy(AllyKoma);
+    }
+    mainSceneManager.isPlayerTurn = true;
+    mainSceneManager.ObjectsSet();
   }
 
-  private void GameSceneLoaded(Scene next, LoadSceneMode mode)
+  /* private void ChangeKoma(GameObject Winner,GameObject Looser)
   {
-    var gameManager = GameObject.FindWithTag("GameManager").GetComponent<GameManager>();
-    gameManager.Next_Koma = Next_Koma;
-    SceneManager.sceneLoaded -= GameSceneLoaded;
-  }
+
+    if (Winner < 5)
+    {
+      Winner++;
+    }
+    if (Looser > 0)
+    {
+      Looser--;
+    }
+    if (Winner == 6)
+    {
+      //GameEnd();
+    }
+
+  } */
+
+  //SwitchRound(){}
+
 }

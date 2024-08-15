@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.172768, g: 0.21589169, b: 0.29782546, a: 1}
+  m_IndirectSpecularColor: {r: 0.17276844, g: 0.21589245, b: 0.2978263, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -167,6 +167,95 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &580239363
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 580239365}
+  - component: {fileID: 580239364}
+  m_Layer: 0
+  m_Name: GameManager
+  m_TagString: GameManager
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &580239364
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 580239363}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f04bb40f5556474aaf6fe978cf8c371, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &580239365
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 580239363}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.09714932, y: 0.8256261, z: 0.79972506}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &633695305
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 633695307}
+  - component: {fileID: 633695306}
+  m_Layer: 0
+  m_Name: UIManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &633695306
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 633695305}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a656b6baa4d75642ae84541e364005a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  TextTurnInfo: {fileID: 1059662605}
+--- !u!4 &633695307
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 633695305}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &705507993
 GameObject:
   m_ObjectHideFlags: 0
@@ -279,7 +368,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &868676609
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -429,7 +518,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f7b5b1d1e98e22f4ca41babfd8a694a6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Board: {fileID: 2053415131498230612, guid: 303e966d68a75b64f8882bf63fd9b9ec, type: 3}
+  prefabBoard: {fileID: 2053415131498230612, guid: 303e966d68a75b64f8882bf63fd9b9ec, type: 3}
   AllyKomas:
   - {fileID: 8076247684693982843, guid: 2ea05c842ac5f1342b97d9386a3e8c0d, type: 3}
   - {fileID: 7473818320020366631, guid: fd4d92877e4f35e40bf17a3869ae558c, type: 3}
@@ -444,6 +533,9 @@ MonoBehaviour:
   - {fileID: 5726907445364283303, guid: 77c42e45a90e3f04cb6b4154508bb830, type: 3}
   - {fileID: 8567271999047007392, guid: 3e9a5f92ade03d54b857b4fe75d7c28c, type: 3}
   - {fileID: 2396122741671985411, guid: 97d23e21875047e45a81229225f062a8, type: 3}
+  Now_ally_Koma: {fileID: 0}
+  Now_Enemy_Koma: {fileID: 0}
+  Board: {fileID: 2053415131498230612, guid: 303e966d68a75b64f8882bf63fd9b9ec, type: 3}
   Now_ally: 0
   Now_Enemy: 0
   isPlayerTurn: 1
@@ -589,7 +681,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -635,7 +727,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1832635358
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -694,5 +786,7 @@ SceneRoots:
   - {fileID: 705507995}
   - {fileID: 868676612}
   - {fileID: 1832635360}
+  - {fileID: 580239365}
   - {fileID: 899017056}
   - {fileID: 260142088}
+  - {fileID: 633695307}
