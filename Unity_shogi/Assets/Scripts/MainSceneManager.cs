@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -14,7 +15,9 @@ public class MainSceneManager : MonoBehaviour
     //盤面にある駒の参照
     public GameObject Now_ally_Koma;
     public GameObject Now_Enemy_Koma;
+    private GameObject NowControlling;
     public GameObject Board;
+    private bool isStop;
     //駒の入れ替えのため駒の状況
     public int Now_ally;
     public int Now_Enemy;
@@ -33,20 +36,28 @@ public class MainSceneManager : MonoBehaviour
     public bool isPlayerTurn;
     //スクリプトKomaControllerを参照するための命名
     private GameManager gameManager;
-    private KomaController NowControlling_KomaController;
     private UIManager uIManager;
+    private Coroutine _switchturn;
 
 
     void Start()
     {
         uIManager = GameObject.Find("UIManager").GetComponent<UIManager>();
         gameManager = GameObject.FindWithTag("GameManager").GetComponent<GameManager>();
+        uIManager.TextWinnerInfo.gameObject.SetActive(false);
         //カメラの取得
         mainCamera = Camera.main;
         //プレイヤーターンを初期化
         isPlayerTurn = true;
         //初期設置
         ObjectsSet();
+    }
+
+    void Update()
+    {
+        if (Now_ally_Koma.GetComponent<Rigidbody>().IsSleeping() && Now_Enemy_Koma.GetComponent<Rigidbody>().IsSleeping())
+            isStop = true;
+        else isStop = false;
     }
 
     public void ObjectsSet()
@@ -68,7 +79,7 @@ public class MainSceneManager : MonoBehaviour
             mainCamera.gameObject.transform.position = AllyCameraPos;
             mainCamera.gameObject.transform.rotation = AllyCameraRotate;
             //付けた1PのKomaControllerを参照
-            NowControlling_KomaController = Now_ally_Koma.GetComponent<KomaController>();
+            NowControlling = Now_ally_Koma;
         }
         else
         {
@@ -76,12 +87,15 @@ public class MainSceneManager : MonoBehaviour
             mainCamera.gameObject.transform.position = EnemyCameraPos;
             mainCamera.gameObject.transform.rotation = EnemyCameraRotate;
             //付けた2PのKomaControllerを参照
-            NowControlling_KomaController = Now_Enemy_Koma.GetComponent<KomaController>();
+            NowControlling = Now_Enemy_Koma;
         }
     }
 
-    private void SwitchTurn()
+    private IEnumerator SwitchTurn()
     {
+        yield return new WaitUntil(() => isStop);
+        yield return new WaitForSeconds(2.0f);
+
         //プレイヤーの交代
         isPlayerTurn = !isPlayerTurn;
         uIManager.TurnInfo(isPlayerTurn);
@@ -89,13 +103,13 @@ public class MainSceneManager : MonoBehaviour
         SetTurn();
     }
 
-    public void ShootKoma(Vector3 vector3)
+    public void ShootKoma(Vector3 swipeDistance)
     {
+        if (swipeDistance == new Vector3(0, 0, 0)) return;//もう少し良くする
         //スワイプの間隔を受け取りSwipe処理を行う
-        NowControlling_KomaController.SwipeKoma(vector3);
+        NowControlling.GetComponent<KomaController>().SwipeKoma(swipeDistance);
         //スワイプが終わったらターンを切り替える
-        SwitchTurn();
-        //Invoke("SwitchTurn", 2.0f);//ここは死ぬのに2秒間かかった場合SwitchTurnの条件分岐でミスる
+        _switchturn = StartCoroutine(SwitchTurn());
     }
 
 
@@ -105,6 +119,7 @@ public class MainSceneManager : MonoBehaviour
     {
         //範囲外に出たオブジェクトを削除
         Destroy(fallobj.gameObject);
+        StopCoroutine(_switchturn);
         gameManager.RoundEnd(fallobj.gameObject);
     }
 }

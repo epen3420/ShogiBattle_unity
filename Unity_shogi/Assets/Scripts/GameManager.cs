@@ -11,13 +11,16 @@ public class GameManager : MonoBehaviour
   private MainSceneManager mainSceneManager;
   private GameObject mainSceneManager_obj;
   private GameObject inputManager_obj;
+  private UIManager uIManager;
 
 
   void Start()
   {
+    uIManager = GameObject.Find("UIManager").GetComponent<UIManager>();
     mainSceneManager_obj = GameObject.FindWithTag("MainSceneManager");
     mainSceneManager = mainSceneManager_obj.GetComponent<MainSceneManager>();
     inputManager_obj = GameObject.Find("InputManager");
+    uIManager.ButtonTitle.gameObject.SetActive(false);
   }
 
   /* private void StartManager(bool Active)
@@ -34,7 +37,7 @@ public class GameManager : MonoBehaviour
     if (RoundLooser == AllyKoma)
     {
       if (mainSceneManager.Now_Enemy == 5)
-        Debug.Log("winner" + EnemyKoma);
+        GameEnd(false);
       if (mainSceneManager.Now_Enemy < 5)
         mainSceneManager.Now_Enemy++;
       if (mainSceneManager.Now_ally > 0)
@@ -44,7 +47,7 @@ public class GameManager : MonoBehaviour
     if (RoundLooser == EnemyKoma)
     {
       if (mainSceneManager.Now_ally == 5)
-        Debug.Log("winner" + AllyKoma);
+        GameEnd(true);
       if (mainSceneManager.Now_ally < 5)
         mainSceneManager.Now_ally++;
       if (mainSceneManager.Now_Enemy > 0)
@@ -55,24 +58,12 @@ public class GameManager : MonoBehaviour
     mainSceneManager.ObjectsSet();
   }
 
-  /* private void ChangeKoma(GameObject Winner,GameObject Looser)
+  private void GameEnd(bool Winner)
   {
-
-    if (Winner < 5)
-    {
-      Winner++;
-    }
-    if (Looser > 0)
-    {
-      Looser--;
-    }
-    if (Winner == 6)
-    {
-      //GameEnd();
-    }
-
-  } */
-
-  //SwitchRound(){}
-
+    inputManager_obj.SetActive(false);
+    uIManager.ButtonTitle.gameObject.SetActive(true);
+    uIManager.TextTurnInfo.gameObject.SetActive(false);
+    uIManager.WinnerInfo(Winner);
+    mainSceneManager_obj.SetActive(false);
+  }
 }
