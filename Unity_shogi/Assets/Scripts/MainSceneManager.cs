@@ -34,6 +34,7 @@ public class MainSceneManager : MonoBehaviour
     private Quaternion EnemyCameraRotate = Quaternion.Euler(70f, 180f, 0f);
     //true:1P, false:2P
     public bool isPlayerTurn;
+    private bool isShoot = false;
     //スクリプトKomaControllerを参照するための命名
     private GameManager gameManager;
     private UIManager uIManager;
@@ -99,6 +100,7 @@ public class MainSceneManager : MonoBehaviour
         //プレイヤーの交代
         isPlayerTurn = !isPlayerTurn;
         uIManager.TurnInfo(isPlayerTurn);
+        isShoot = false;
         //ターンをセット
         SetTurn();
     }
@@ -106,10 +108,14 @@ public class MainSceneManager : MonoBehaviour
     public void ShootKoma(Vector3 swipeDistance)
     {
         if (swipeDistance == new Vector3(0, 0, 0)) return;//もう少し良くする
-        //スワイプの間隔を受け取りSwipe処理を行う
-        NowControlling.GetComponent<KomaController>().SwipeKoma(swipeDistance);
-        //スワイプが終わったらターンを切り替える
-        _switchturn = StartCoroutine(SwitchTurn());
+        if (!isShoot)
+        {
+            //スワイプの間隔を受け取りSwipe処理を行う
+            NowControlling.GetComponent<KomaController>().SwipeKoma(swipeDistance);
+            isShoot = true;
+            //スワイプが終わったらターンを切り替える
+            _switchturn = StartCoroutine(SwitchTurn());
+        }
     }
 
 
@@ -120,6 +126,7 @@ public class MainSceneManager : MonoBehaviour
         //範囲外に出たオブジェクトを削除
         Destroy(fallobj.gameObject);
         StopCoroutine(_switchturn);
+        isShoot = false;
         gameManager.RoundEnd(fallobj.gameObject);
     }
 }
