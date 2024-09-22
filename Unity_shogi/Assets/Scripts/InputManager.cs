@@ -15,6 +15,7 @@ public class InputManager : MonoBehaviour
     //スクリプトMainSceneManagerを参照するための命名
     private MainSceneManager mainSceneManager;
 
+    private CameraManager cameraManager;
 
     void Start()
     {
