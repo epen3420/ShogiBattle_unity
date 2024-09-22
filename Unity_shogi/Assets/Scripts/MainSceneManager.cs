@@ -108,7 +108,7 @@ public class MainSceneManager : MonoBehaviour
     public void ShootKoma(Vector3 vector3)
     {
         //スワイプの間隔を受け取りSwipe処理を行う
-        NowControlling_KomaController.SwipeKoma(vector3);
+        NowControlling.GetComponent<KomaController>().SwipeKoma(vector3);
         //スワイプが終わったらターンを切り替える
         SwitchTurn();
         //Invoke("SwitchTurn", 2.0f);//ここは死ぬのに2秒間かかった場合SwitchTurnの条件分岐でミスる

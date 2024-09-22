@@ -13,7 +13,8 @@ GameObject:
   - component: {fileID: 2110065864782230511}
   - component: {fileID: 1644260482703669477}
   - component: {fileID: 5124051236882038211}
-  - component: {fileID: 6239303165975615179}
+  - component: {fileID: 4000615364846975227}
+  - component: {fileID: -3774973336002805851}
   m_Layer: 0
   m_Name: Hu
   m_TagString: Player
@@ -135,7 +136,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &6239303165975615179
+--- !u!114 &4000615364846975227
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -144,10 +145,23 @@ MonoBehaviour:
   m_GameObject: {fileID: 2396122741671985411}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d9beaad212f3d5248a9e69b9d61e862e, type: 3}
+  m_Script: {fileID: 11500000, guid: 7a66ac3cb6a2a7f49aabe1b5ee73cdea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CanSwipe: 0
+  isAlly: 0
+--- !u!114 &-3774973336002805851
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2396122741671985411}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 24f114e4073ffd64fbb900bc601f8fed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  komaGrade: 0
 --- !u!1 &2727747489568577095
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -14,14 +15,23 @@ public class InputManager : MonoBehaviour
     private Camera mainCamera;
     //スクリプトMainSceneManagerを参照するための命名
     private MainSceneManager mainSceneManager;
-
+    private ObjectsController objectsController;
     private CameraManager cameraManager;
+
+    [SerializeField] private bool isPlayer;
+    public bool IsPlayer
+    {
+        set { isPlayer = value; }
+        get { return isPlayer; }
+    }
+
 
     void Start()
     {
         //カメラ,MainSceneManagerの取得
         mainCamera = Camera.main;
-        mainSceneManager = GameObject.FindWithTag("MainSceneManager").GetComponent<MainSceneManager>();
+        // mainSceneManager = GameObject.FindWithTag("MainSceneManager").GetComponent<MainSceneManager>();
+        objectsController = GetComponent<ObjectsController>();
     }
 
     void Update()
@@ -33,12 +43,13 @@ public class InputManager : MonoBehaviour
             GetMouseStartPos = Input.mousePosition;
         }
         //マウスクリックを離した時
-        if (Input.GetMouseButtonUp(0))
+        else if (Input.GetMouseButtonUp(0))
         {
             //マウススワイプ終了時の位置の取得
             GetMouseEndPos = Input.mousePosition;
             //MainSceneManagerにスワイプの間隔を知らせる
-            mainSceneManager.ShootKoma(SwipeMouse());
+            objectsController.Move(SwipeMouse());
+
         }
     }
 
