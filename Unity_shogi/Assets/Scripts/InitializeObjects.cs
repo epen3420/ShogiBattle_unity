@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class InitilizeObjects : MonoBehaviour
+public class InitializeObjects : MonoBehaviour
 {
     //prefabの盤、駒の定義
     [SerializeField] GameObject prefabBoard;
@@ -28,22 +28,20 @@ public class InitilizeObjects : MonoBehaviour
     {
         get { return nowEnemyKoma; }
     }
-    //駒の入れ替えのため駒の状況
-    public int nowAlly;
-    public int nowEnemy;
 
 
     private void Start()
     {
-        SetObjects();
-        GameObject.Find("TurnSwitcher").GetComponent<TurnSwitcher>().TurnSwitch();
+        SetObjects(0, 0);
     }
 
-    private void SetObjects()
+    private void SetObjects(int nowAlly, int nowEnemy)
     {
         //盤、駒の設置
         board = Instantiate(prefabBoard, boardPos, boardRotate);
         nowAllyKoma = Instantiate(allyKomas[nowAlly], allyPos, allyRotate);
+        nowAllyKoma.GetComponent<InputManager>().IsPlayer = true;
         nowEnemyKoma = Instantiate(enemyKomas[nowEnemy], enemyPos, enemyRotate);
+        nowEnemyKoma.GetComponent<InputManager>().IsPlayer = false;
     }
 }

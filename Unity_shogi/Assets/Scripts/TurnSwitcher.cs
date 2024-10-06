@@ -4,32 +4,16 @@ using UnityEngine;
 
 public class TurnSwitcher : MonoBehaviour
 {
-    private InputManager inputManager;
-
-    [SerializeField] private InitilizeObjects initilizeObjects;
-    [SerializeField] private bool isAlly = true;
+    [SerializeField] private InitializeObjects initializeObjects;
 
 
-    private void Update()
+    public void TurnSwitch(bool isAlly)
     {
-        TurnSwitch();
-    }
-
-    public void TurnSwitch()
-    {
-        GameObject allyKoma = initilizeObjects.NowAllyKoma;
+        GameObject allyKoma = initializeObjects.NowAllyKoma;
         var allyKomaInputManager = allyKoma.GetComponent<InputManager>();
-        GameObject enemyKoma = initilizeObjects.NowEnemyKoma;
+        GameObject enemyKoma = initializeObjects.NowEnemyKoma;
         var enemyKomaInputManager = enemyKoma.GetComponent<InputManager>();
-        if (isAlly)
-        {
-            allyKomaInputManager.enabled = true;
-            enemyKomaInputManager.enabled = false;
-        }
-        else
-        {
-            allyKomaInputManager.enabled = false;
-            enemyKomaInputManager.enabled = true;
-        }
+        allyKomaInputManager.enabled = isAlly;
+        enemyKomaInputManager.enabled = !isAlly;
     }
 }

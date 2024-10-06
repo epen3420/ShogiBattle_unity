@@ -1,40 +1,29 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class InputManager : MonoBehaviour
 {
-    //スワイプ位置の変数
-    private Vector3 GetMouseStartPos;
+    private Vector3 GetMouseStartPos; // スワイプ位置の変数
     private Vector3 GetMouseEndPos;
-    //Ray時の位置の変数
-    private Vector3 WorldStartPos;
-    private Vector3 WorldEndPos;
-    //カメラの定義
-    private Camera mainCamera;
-    //スクリプトMainSceneManagerを参照するための命名
-    private MainSceneManager mainSceneManager;
-    private ObjectsController objectsController;
-    private CameraManager cameraManager;
+    private Camera mainCamera; // カメラの定義
+    private KomaController komaController;
 
-    [SerializeField] private bool isPlayer;
+    [SerializeField]
+    private bool isPlayer = false;
     public bool IsPlayer
     {
         set { isPlayer = value; }
-        get { return isPlayer; }
     }
 
 
-    void Start()
+    private void Start()
     {
-        //カメラ,MainSceneManagerの取得
         mainCamera = Camera.main;
-        // mainSceneManager = GameObject.FindWithTag("MainSceneManager").GetComponent<MainSceneManager>();
-        objectsController = GetComponent<ObjectsController>();
+        komaController = GetComponent<KomaController>();
     }
 
-    void Update()
+    private void Update()
     {
         //マウスクリック時
         if (Input.GetMouseButtonDown(0))
@@ -48,24 +37,20 @@ public class InputManager : MonoBehaviour
             //マウススワイプ終了時の位置の取得
             GetMouseEndPos = Input.mousePosition;
             //MainSceneManagerにスワイプの間隔を知らせる
-            objectsController.Move(SwipeMouse());
-
+            komaController.HitKoma(GetMouseEndPos - GetMouseStartPos);
         }
     }
 
-    public Vector3 SwipeMouse()
+    /// <summary>
+    /// スクリーンを基準に二点の三次元座標の距離を測る関数
+    /// </summary>
+    /// <returns></returns>
+    private Vector3 InputScreenDistance(Vector3 startPoint, Vector3 endPoint)
     {
-        //Rayとしてスワイプ開始時、終了時の位置を変換
-        Ray rayStart = mainCamera.ScreenPointToRay(GetMouseStartPos);
-        Ray rayEnd = mainCamera.ScreenPointToRay(GetMouseEndPos);
+        Vector3 screenStartPoint = mainCamera.WorldToScreenPoint(startPoint);
+        Vector3 screenEndPoint = mainCamera.WorldToScreenPoint(endPoint);
 
-        if (Physics.Raycast(rayStart, out RaycastHit hitStart) && Physics.Raycast(rayEnd, out RaycastHit hitEnd))
-        {
-            //スワイプの開始と終了をRayとして取得
-            WorldStartPos = hitStart.point;
-            WorldEndPos = hitEnd.point;
-        }
-        //結果としてスワイプの間隔を返す
-        return WorldEndPos - WorldStartPos;
+        Vector3.Distance(screenStartPoint, screenEndPoint);
+        return Vector3.zero;
     }
 }

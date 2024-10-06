@@ -96,8 +96,8 @@ GameObject:
   - component: {fileID: 1211014770766844077}
   - component: {fileID: 6514776198260887488}
   - component: {fileID: 7359162179541851293}
+  - component: {fileID: -4034441521273646462}
   - component: {fileID: 5381527645611090561}
-  - component: {fileID: 463871654831443848}
   m_Layer: 0
   m_Name: Gin
   m_TagString: Player
@@ -219,6 +219,19 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &-4034441521273646462
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7164221966815633245}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9beaad212f3d5248a9e69b9d61e862e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  komaGrade: 0
 --- !u!114 &5381527645611090561
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -231,17 +244,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a66ac3cb6a2a7f49aabe1b5ee73cdea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isAlly: 0
---- !u!114 &463871654831443848
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7164221966815633245}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 24f114e4073ffd64fbb900bc601f8fed, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  komaGrade: 0
+  isPlayer: 0

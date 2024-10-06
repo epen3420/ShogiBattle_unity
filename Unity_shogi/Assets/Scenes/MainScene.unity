@@ -38,7 +38,6 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.17276844, g: 0.21589245, b: 0.2978263, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -841,8 +840,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 827f9f8298a5b8b4598b4e2a6718e281, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  initilizeObjects: {fileID: 1699397854}
-  isAlly: 1
+  initializeObjects: {fileID: 1699397854}
 --- !u!4 &1672750757
 Transform:
   m_ObjectHideFlags: 0
@@ -917,8 +915,6 @@ MonoBehaviour:
   - {fileID: 5726907445364283303, guid: 77c42e45a90e3f04cb6b4154508bb830, type: 3}
   - {fileID: 8567271999047007392, guid: 3e9a5f92ade03d54b857b4fe75d7c28c, type: 3}
   - {fileID: 2396122741671985411, guid: 97d23e21875047e45a81229225f062a8, type: 3}
-  nowAlly: 0
-  nowEnemy: 0
 --- !u!1 &1832635357
 GameObject:
   m_ObjectHideFlags: 0

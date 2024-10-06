@@ -13,8 +13,8 @@ GameObject:
   - component: {fileID: 5803565438772288467}
   - component: {fileID: 6308215187051210608}
   - component: {fileID: 8029943374682882933}
+  - component: {fileID: 6839724255485453930}
   - component: {fileID: -8447096020385198838}
-  - component: {fileID: -6126964766297525099}
   m_Layer: 0
   m_Name: Kin
   m_TagString: Player
@@ -136,6 +136,19 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &6839724255485453930
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4473078196754932250}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9beaad212f3d5248a9e69b9d61e862e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  komaGrade: 0
 --- !u!114 &-8447096020385198838
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -148,20 +161,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a66ac3cb6a2a7f49aabe1b5ee73cdea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isAlly: 0
---- !u!114 &-6126964766297525099
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4473078196754932250}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 24f114e4073ffd64fbb900bc601f8fed, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  komaGrade: 0
+  isPlayer: 0
 --- !u!1 &4625691319376309039
 GameObject:
   m_ObjectHideFlags: 0
