@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class KomaController : MonoBehaviour
+public class KomaController : MonoBehaviour/* , IGradeKoma */
 {
     private Rigidbody rb;
     private float hitForceMultiplier = 10f; // スワイプの強さ
@@ -27,15 +27,15 @@ public class KomaController : MonoBehaviour
         rb.AddForce(hitDirection * hitForce, ForceMode.Impulse);
     }
 
-    private void UpGradeKoma()
-    {
-        if (komaGrade < 6)
-            komaGrade++;
-    }
+    /*     public void UpGradeKoma(int upGradeNum)
+        {
+            if (komaGrade < 6)
+                komaGrade += upGradeNum;
+        }
 
-    private void DownGradeKoma()
-    {
-        if (komaGrade > 0)
-            komaGrade--;
-    }
+        public void DownGradeKoma(int downGradeNum)
+        {
+            if (komaGrade > 0)
+                komaGrade -= downGradeNum;
+        } */
 }
