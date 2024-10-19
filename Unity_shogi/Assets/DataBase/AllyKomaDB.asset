@@ -1,0 +1,51 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 834e6251abfe52e409456d83e1518c45, type: 3}
+  m_Name: AllyKomaDB
+  m_EditorClassIdentifier: 
+  komaObjectDatas:
+  - name: Ou
+    prefab: {fileID: 8076247684693982843, guid: 2ea05c842ac5f1342b97d9386a3e8c0d, type: 3}
+    weight: 0
+    komaType: 0
+  - name: Gyoku
+    prefab: {fileID: 6675157702866101093, guid: 9937307edc9b16549b1ad7b7746b8990, type: 3}
+    weight: 0
+    komaType: 0
+  - name: Hisya
+    prefab: {fileID: 7473818320020366631, guid: fd4d92877e4f35e40bf17a3869ae558c, type: 3}
+    weight: 0
+    komaType: 0
+  - name: Kaku
+    prefab: {fileID: 7049163345267232307, guid: b252685d8a72da54fb99ca0dd97232f8, type: 3}
+    weight: -0.03
+    komaType: 0
+  - name: Kin
+    prefab: {fileID: 4473078196754932250, guid: 1c4065d61485e3a41bb7174a3a4cbeab, type: 3}
+    weight: 0
+    komaType: 0
+  - name: Gin
+    prefab: {fileID: 7164221966815633245, guid: 13ff4cb38cf576a479621a751311bfdc, type: 3}
+    weight: 0
+    komaType: 0
+  - name: Kei
+    prefab: {fileID: 5726907445364283303, guid: 77c42e45a90e3f04cb6b4154508bb830, type: 3}
+    weight: 0
+    komaType: 0
+  - name: Kyou
+    prefab: {fileID: 8567271999047007392, guid: 3e9a5f92ade03d54b857b4fe75d7c28c, type: 3}
+    weight: 0
+    komaType: 0
+  - name: Hu
+    prefab: {fileID: 2396122741671985411, guid: 97d23e21875047e45a81229225f062a8, type: 3}
+    weight: 0
+    komaType: 0
