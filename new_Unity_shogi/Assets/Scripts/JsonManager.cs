@@ -6,7 +6,7 @@ using System.IO;
 public class JsonManager
 {
     /// <summary>
-    /// 欲しいJsonの型TとJsonのfilePathを渡すことでJsonファイルからデータを取得する関数
+    /// 欲しいJsonの型TとJsonのfilePathを渡すことでAddressableにあるJsonファイルからデータを取得する関数
     /// </summary>
     /// <typeparam name="T"></typeparam>
     /// <param name="filePath"></param>
@@ -18,9 +18,15 @@ public class JsonManager
         return JsonUtility.FromJson<T>(json); // JSONをオブジェクトに変換
     }
 
+    /// <summary>
+    /// 欲しいJsonの型TとJsonのfilePathを渡すことでLocalにあるJsonファイルからデータを取得する関数
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="filePath"></param>
+    /// <returns></returns>
     public static T LoadFromLocal<T>(string fileName)
     {
-        string filePath = Path.Combine(Application.persistentDataPath, fileName);
+        string filePath = Path.Combine(Application.persistentDataPath, fileName + ".json");
         try
         {
             if (File.Exists(filePath))
@@ -41,9 +47,15 @@ public class JsonManager
         }
     }
 
+    /// <summary>
+    /// 保存した型TのデータをfileNameを名前にJsonファイルとしてローカルに保存する関数
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="data"></param>
+    /// <param name="fileName"></param>
     public static void Save<T>(T data, string fileName)
     {
-        string filePath = Path.Combine(Application.persistentDataPath, fileName);
+        string filePath = Path.Combine(Application.persistentDataPath, fileName + ".json");
 
         StreamWriter writer;
 
