@@ -8,7 +8,7 @@ public class GameManager : MonoBehaviour
 {
     private int maxPlayerCount = 1;
     // ここをDictionarｙにして名前（KomaType）で指定できるようにしたいかも
-    private List<List<string>> playersKomasList = new List<List<string>>();
+    private List<List<KomaType>> playersKomasList = new List<List<KomaType>>();
     private List<GameObject> currentPlayersKomaList = new List<GameObject>();
 
     [SerializeField]
@@ -18,13 +18,23 @@ public class GameManager : MonoBehaviour
     private void Awake()
     {
         var playerInfo = JsonManager.LoadFromLocal<PlayerInfo>("playerInfo");
-        SetPlayersKomasList(playerInfo);
+        // playersKomasList.Add(SetPlayersKomasList(playerInfo));
+        for (int i = 0; i < komaDataBase.komaDatasList.Count; i++)
+        {
+            playersKomasList.Add(komaDataBase.komaSetsList[playerInfo.playerDatas[i].komaSets].komaType);
+        }
+        for (int i = 0; i < playersKomasList.Count; i++)
+        {
+            var player = playersKomasList[i];
+            Debug.Log(player);
+            Debug.Log(player[i]);
+        }
         StartCoroutine(GameManage());
     }
 
     private IEnumerator GameManage()
     {
-        yield return SetPlayersKomaList(nowKomaNum);
+        // yield return SetPlayersKomaList(nowKomaNum);
 
         yield return InstantiateObj(currentPlayersKomaList, Vector3.zero, Quaternion.identity);
         /*
@@ -56,7 +66,7 @@ public class GameManager : MonoBehaviour
         for (int i = 0; i < maxPlayerCount; i++)
         {
             var currentPlayerKomasList = playersKomasList[i];
-            string objPath = currentPlayerKomasList[komaNum[i]];
+            string objPath = currentPlayerKomasList[komaNum[i]].ToString();
             var handle = Addressables.LoadAssetAsync<GameObject>(objPath);
             yield return handle;
             if (handle.Status == AsyncOperationStatus.Succeeded)
@@ -66,11 +76,16 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    private void SetPlayersKomasList(PlayerInfo playerInfo)
+    /// <summary>
+    /// プレイヤーごとの選んだ駒セットの駒の名前をリストに
+    /// </summary>
+    /// <param name="playerInfo"></param>
+    /// <returns></returns>
+    private List<KomaType> SetPlayersKomasList(PlayerInfo playerInfo)
     {
+        List<KomaType> komaList = new List<KomaType>();
         for (int i = 0; i < maxPlayerCount; i++)
         {
-            List<string> komaList = new List<string>();
             var komaSet = komaDataBase.komaSetsList[playerInfo.playerDatas[i].komaSets];
             for (int j = 0; j < komaSet.komaType.Count; j++)
             {
@@ -78,7 +93,7 @@ public class GameManager : MonoBehaviour
                 {
                     if (komaSet.komaType[j] == komaDataBase.komaDatasList[k].name)
                     {
-                        string objPath = komaDataBase.komaDatasList[k].name.ToString();
+                        KomaType objPath = komaDataBase.komaDatasList[k].name;
                         komaList.Add(objPath);
                         break;
                         /* var handle = Addressables.LoadAssetAsync<GameObject>(objPath);
@@ -91,7 +106,7 @@ public class GameManager : MonoBehaviour
                     }
                 }
             }
-            playersKomasList.Add(komaList);
         }
+        return komaList;
     }
 }

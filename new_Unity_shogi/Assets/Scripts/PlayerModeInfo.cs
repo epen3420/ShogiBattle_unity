@@ -70,7 +70,8 @@ public class PlayerModeInfo : MonoBehaviour
                 PlayerDatas playerDatas = new PlayerDatas
                 {
                     playerID = i,
-                    komaSets = option
+                    komaSets = option,
+                    currentKoma = KomaType.None
                 };
                 playerInfo.playerDatas.Add(playerDatas);
             }
@@ -90,4 +91,5 @@ public class PlayerDatas
 {
     public int playerID;
     public int komaSets;
+    public KomaType currentKoma;
 }
