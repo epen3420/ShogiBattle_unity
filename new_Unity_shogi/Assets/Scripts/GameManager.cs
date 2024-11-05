@@ -6,107 +6,115 @@ using UnityEngine.ResourceManagement.AsyncOperations;
 
 public class GameManager : MonoBehaviour
 {
-    private int maxPlayerCount = 1;
-    // ここをDictionarｙにして名前（KomaType）で指定できるようにしたいかも
-    private List<List<KomaType>> playersKomasList = new List<List<KomaType>>();
-    private List<GameObject> currentPlayersKomaList = new List<GameObject>();
+    private const int maxPlayerCount = 4;
+    private int playerCount = 2;
+    private Dictionary<KomaType, GameObject> komasDictionary = new Dictionary<KomaType, GameObject>();
+    private PlayerInfo playerInfo;
 
     [SerializeField]
     private KomaDataBase komaDataBase;
-
+    [SerializeField]
+    private Transform PlayersKomasParent;
 
     private void Awake()
     {
-        var playerInfo = JsonManager.LoadFromLocal<PlayerInfo>("playerInfo");
-        // playersKomasList.Add(SetPlayersKomasList(playerInfo));
-        for (int i = 0; i < komaDataBase.komaDatasList.Count; i++)
-        {
-            playersKomasList.Add(komaDataBase.komaSetsList[playerInfo.playerDatas[i].komaSets].komaType);
-        }
-        for (int i = 0; i < playersKomasList.Count; i++)
-        {
-            var player = playersKomasList[i];
-            Debug.Log(player);
-            Debug.Log(player[i]);
-        }
+        playerInfo = JsonManager.LoadFromLocal<PlayerInfo>("playerInfo");
+    }
+
+    private IEnumerator Start()
+    {
+        yield return StartCoroutine(GenerateKomaDictionary());
+
+        yield return StartCoroutine(InstantiateBoard());
+
         StartCoroutine(GameManage());
     }
 
     private IEnumerator GameManage()
     {
-        // yield return SetPlayersKomaList(nowKomaNum);
+        yield return InstantiateKoma(Vector3.zero, Quaternion.identity);
 
-        yield return InstantiateObj(currentPlayersKomaList, Vector3.zero, Quaternion.identity);
-        /*
-        初期化処理
+        /*初期化処理
             オブジェクトを設置
 
-         ラウンド終了を検知
+        ラウンド終了を検知
 
         リセット処理
 
         もし最後まで行ってなかったら
-        GameManager();
-        */
+        GameManager();*/
     }
 
-    private IEnumerator InstantiateObj(List<GameObject> objList, Vector3 pos, Quaternion rotate)
+    /// <summary>
+    /// playerInfo.jsonに保存されたcurrentKomaをposとrotationを指定して生成する関数
+    /// </summary>
+    /// <param name="pos"></param>
+    /// <param name="rotation"></param>
+    /// <returns></returns>
+    private IEnumerator InstantiateKoma(Vector3 pos, Quaternion rotation)
     {
-        List<GameObject> tempObj = new List<GameObject>();
-        for (int i = 0; i < objList.Count; i++)
+        for (int i = 0; i < playerCount; i++)
         {
-            var obj = Instantiate(objList[i], pos, rotate);
-            tempObj.Add(obj);
+            KomaType generateKomaType = PlayerKomaType(i, playerInfo.playerDatas[i].currentKomaInKomaSets);
+            GameObject playerKoma = Instantiate(komasDictionary[generateKomaType], pos, rotation);
+            yield return playerKoma;
+            playerKoma.transform.SetParent(PlayersKomasParent);
+            Debug.Log($"Instantiated koma: {playerKoma.name}");
         }
-        yield return tempObj;
+        Debug.Log("Finished instantiating all koma.");
     }
 
-    private IEnumerator SetPlayersKomaList(int[] komaNum)
+    // Task ↑↓共通にできそうじゃね
+    private IEnumerator InstantiateBoard()
     {
-        for (int i = 0; i < maxPlayerCount; i++)
+        var handle = Addressables.LoadAssetAsync<GameObject>("Board");
+        yield return handle;
+        if (handle.Status == AsyncOperationStatus.Succeeded)
         {
-            var currentPlayerKomasList = playersKomasList[i];
-            string objPath = currentPlayerKomasList[komaNum[i]].ToString();
-            var handle = Addressables.LoadAssetAsync<GameObject>(objPath);
-            yield return handle;
-            if (handle.Status == AsyncOperationStatus.Succeeded)
-            {
-                currentPlayersKomaList.Add(handle.Result);
-            }
+            yield return Instantiate(handle.Result);
         }
     }
 
     /// <summary>
-    /// プレイヤーごとの選んだ駒セットの駒の名前をリストに
+    /// KomaTypeをKeyに、対応するValueにPrefabをするDictionaryを作る関数
     /// </summary>
-    /// <param name="playerInfo"></param>
     /// <returns></returns>
-    private List<KomaType> SetPlayersKomasList(PlayerInfo playerInfo)
+    private IEnumerator GenerateKomaDictionary()
     {
-        List<KomaType> komaList = new List<KomaType>();
-        for (int i = 0; i < maxPlayerCount; i++)
+        foreach (var komaData in komaDataBase.komaDatasList)
         {
-            var komaSet = komaDataBase.komaSetsList[playerInfo.playerDatas[i].komaSets];
-            for (int j = 0; j < komaSet.komaType.Count; j++)
+            string objPath = komaData.name.ToString();
+            var handle = Addressables.LoadAssetAsync<GameObject>(objPath);
+            yield return handle;
+
+            if (handle.Status == AsyncOperationStatus.Succeeded)
             {
-                for (int k = 0; k < komaDataBase.komaDatasList.Count; k++)
-                {
-                    if (komaSet.komaType[j] == komaDataBase.komaDatasList[k].name)
-                    {
-                        KomaType objPath = komaDataBase.komaDatasList[k].name;
-                        komaList.Add(objPath);
-                        break;
-                        /* var handle = Addressables.LoadAssetAsync<GameObject>(objPath);
-                        yield return handle;
-                        if (handle.Status == AsyncOperationStatus.Succeeded)
-                        {
-                            komaList.Add(handle.Result);
-                            break;
-                        } */
-                    }
-                }
+                komasDictionary[komaData.name] = handle.Result;
             }
         }
-        return komaList;
+        Debug.Log($"Generated KomaDictionary");
+    }
+
+
+    // プレイヤーIDと駒セットのListの要素番号を入れることでKomaTypeを返す関数
+    private KomaType PlayerKomaType(int playerID, int komaNumInKomaSets)
+    {
+        var playerInfo = JsonManager.LoadFromLocal<PlayerInfo>("playerInfo");
+        return komaDataBase.komaSetsList[playerInfo.playerDatas[playerID].komaSets].komaType[komaNumInKomaSets];
+    }
+
+
+    private void SetGradeKoma(int upPlayerID, int upNum)
+    {
+        for (int i = 0; i < playerInfo.playerDatas.Count; i++)
+        {
+            if (playerInfo.playerDatas[i].playerID == upPlayerID)
+            {
+
+                playerInfo.playerDatas[i].currentKomaInKomaSets += upNum;
+                break;
+            }
+        }
+        JsonManager.Save(playerInfo, "playerInfo");
     }
 }
