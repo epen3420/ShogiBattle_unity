@@ -1,0 +1,21 @@
+@startuml
+    class PlayerInputManager{
+        +OnDrag()
+    }
+
+    namespace Player{
+        interface IKomaAction{
+            +Move(Vector3 moveVector)
+        }
+
+        class KomaController{
+        }
+    }
+
+    class GameManager{
+        -InstantiateKoma()
+    }
+
+    KomaController.|>IKomaAction
+    PlayerInputManager-->IKomaAction
+@enduml
