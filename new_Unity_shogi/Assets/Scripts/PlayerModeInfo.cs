@@ -10,13 +10,8 @@ public class PlayerModeInfo : MonoBehaviour
     [SerializeField]
     private GameObject playerModeParentObj;
 
-    [SerializeField] private PlayerInfoDataBase playerInfoDataBase;
-
-    private PlayerInfoDataBase runTimePlayerInfoDB;
     private void Awake()
     {
-        runTimePlayerInfoDB = Instantiate(playerInfoDataBase);
-
         // 駒のセットを選択するためのDropdownのオブジェクトを取得
         playerMode = new GameObject[maxPlayerCount];
         for (int i = 0; i < maxPlayerCount; i++)
@@ -49,9 +44,9 @@ public class PlayerModeInfo : MonoBehaviour
         // 選択が0（NULL）だった場合返す
         if (selectedOption == 0) return;
 
-        var playerInfoDB = SetPlayerInfo(thisObj, selectedOption);
+        var playerInfo = SetPlayerInfo(thisObj, selectedOption);
 
-        runTimePlayerInfoDB = playerInfoDB;
+        JsonManager.Save(playerInfo, "playerInfo");
     }
 
     /// <summary>
@@ -60,9 +55,9 @@ public class PlayerModeInfo : MonoBehaviour
     /// <param name="obj"></param>
     /// <param name="option"></param>
     /// <returns></returns>
-    private PlayerInfoDataBase SetPlayerInfo(GameObject obj, int option)
+    private PlayerInfo SetPlayerInfo(GameObject obj, int option)
     {
-        PlayerInfoDataBase playerInfoDB = new PlayerInfoDataBase
+        PlayerInfo playerInfoDB = new PlayerInfo
         {
             playerDatas = new List<PlayerDatas>()
         };
@@ -82,4 +77,18 @@ public class PlayerModeInfo : MonoBehaviour
         }
         return playerInfoDB;
     }
+}
+
+[System.Serializable]
+public class PlayerInfo
+{
+    public List<PlayerDatas> playerDatas = new List<PlayerDatas>();
+}
+
+[System.Serializable]
+public class PlayerDatas
+{
+    public int playerID;
+    public int komaSets;
+    public int currentKomaInKomaSets;
 }

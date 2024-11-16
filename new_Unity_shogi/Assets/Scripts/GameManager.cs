@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -10,7 +9,7 @@ public class GameManager : MonoBehaviour
     private const int maxPlayerCount = 4;
     private Vector3[] pos;
     private Quaternion[] quaternions;
-    private int playerCount = 2;
+    private int playerCount = 3;
     private Dictionary<KomaType, GameObject> komasDictionary = new Dictionary<KomaType, GameObject>();
     private PlayerInfo playerInfo;
     private GameObject[] playersKoma;
@@ -107,9 +106,9 @@ public class GameManager : MonoBehaviour
     // プレイヤーIDと駒セットのListの要素番号を入れることでKomaTypeを返す関数
     private KomaType PlayerKomaType(int playerID, int komaNumInKomaSets)
     {
-        var playerInfo = JsonManager.LoadFromLocal<PlayerInfo>("playerInfo");
         return komaDataBase.komaSetsList[playerInfo.playerDatas[playerID].komaSets].komaType[komaNumInKomaSets];
     }
+
 
     private void SetGradeKoma(int upPlayerID, int upNum)
     {
@@ -128,7 +127,8 @@ public class GameManager : MonoBehaviour
     private void GeneratePos()
     {
         Bounds bounds = boardObj.GetComponent<Collider>().bounds;
-        float radius = bounds.max.x - bounds.center.x - 0.5f;
+        float radius = Mathf.Min(bounds.extents.x, bounds.extents.z) - 0.5f;  // ボードの半径を計算
+
 
         pos = new Vector3[playerCount];
         quaternions = new Quaternion[playerCount];

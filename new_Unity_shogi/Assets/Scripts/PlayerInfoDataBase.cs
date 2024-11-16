@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+/* using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "PlayerInfoDataBase", menuName = "Scriptable Objects/PlayerInfoDataBase")]
@@ -25,3 +25,4 @@ public class PlayerDatas
     public int komaSets;
     public int currentKomaInKomaSets;
 }
+ */
