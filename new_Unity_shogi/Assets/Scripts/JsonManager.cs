@@ -2,7 +2,12 @@ using UnityEngine;
 using UnityEngine.AddressableAssets;
 using System.IO;
 
-
+/// <summary>
+/// Jsonファイルを使うときに使える
+/// - AddressablesからLoad
+/// - LocalからLoad
+/// - Save
+/// </summary>
 public class JsonManager
 {
     /// <summary>

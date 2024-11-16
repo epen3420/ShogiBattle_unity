@@ -10,7 +10,6 @@ public class PlayerModeInfo : MonoBehaviour
     [SerializeField]
     private GameObject playerModeParentObj;
 
-
     private void Awake()
     {
         // 駒のセットを選択するためのDropdownのオブジェクトを取得
@@ -47,7 +46,7 @@ public class PlayerModeInfo : MonoBehaviour
 
         var playerInfo = SetPlayerInfo(thisObj, selectedOption);
 
-        JsonManager.Save<PlayerInfo>(playerInfo, "playerInfo");
+        JsonManager.Save(playerInfo, "playerInfo");
     }
 
     /// <summary>
@@ -58,7 +57,7 @@ public class PlayerModeInfo : MonoBehaviour
     /// <returns></returns>
     private PlayerInfo SetPlayerInfo(GameObject obj, int option)
     {
-        PlayerInfo playerInfo = new PlayerInfo
+        PlayerInfo playerInfoDB = new PlayerInfo
         {
             playerDatas = new List<PlayerDatas>()
         };
@@ -73,10 +72,10 @@ public class PlayerModeInfo : MonoBehaviour
                     komaSets = option,
                     currentKomaInKomaSets = 0
                 };
-                playerInfo.playerDatas.Add(playerDatas);
+                playerInfoDB.playerDatas.Add(playerDatas);
             }
         }
-        return playerInfo;
+        return playerInfoDB;
     }
 }
 
