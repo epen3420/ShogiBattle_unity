@@ -1,13 +1,11 @@
-using System;
-using System.Collections;
+/* using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
 
-public class GameManager : MonoBehaviour
+public class PlayerManager : MonoBehaviour
 {
-    private const int maxPlayerCount = 4;
     private Vector3[] pos;
     private Quaternion[] quaternions;
     private int playerCount = 2;
@@ -15,8 +13,12 @@ public class GameManager : MonoBehaviour
     private PlayerInfo playerInfo;
     private GameObject[] playersKoma;
     private GameObject boardObj;
+
+
     [SerializeField]
     private KomaDataBase komaDataBase;
+
+
     private void Awake()
     {
         playerInfo = JsonManager.LoadFromLocal<PlayerInfo>("playerInfo");
@@ -24,33 +26,17 @@ public class GameManager : MonoBehaviour
 
     private IEnumerator Start()
     {
-        yield return StartCoroutine(GenerateKomaDictionary());
+        yield return GenerateKomaDictionary();
 
-        yield return StartCoroutine(InstantiateBoard());
+        yield return InstantiateBoard();
 
         GeneratePos();
-
-        StartCoroutine(GameManage());
     }
 
-    private IEnumerator GameManage()
+    private IEnumerator init()
     {
-
-
-        yield return InstantiateKoma(pos, quaternions);
-
-        /* 初期化処理
-            オブジェクトを設置
-
-        ラウンド終了を検知
-
-        リセット処理
-
-        もし最後まで行ってなかったら
-        GameManager(); */
+        yield return InstantiateKoma();
     }
-
-
 
     /// <summary>
     /// playerInfo.jsonに保存されたcurrentKomaをposとrotationを指定して生成する関数
@@ -143,3 +129,4 @@ public class GameManager : MonoBehaviour
     }
 
 }
+ */

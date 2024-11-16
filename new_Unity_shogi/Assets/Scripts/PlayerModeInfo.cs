@@ -10,9 +10,13 @@ public class PlayerModeInfo : MonoBehaviour
     [SerializeField]
     private GameObject playerModeParentObj;
 
+    [SerializeField] private PlayerInfoDataBase playerInfoDataBase;
 
+    private PlayerInfoDataBase runTimePlayerInfoDB;
     private void Awake()
     {
+        runTimePlayerInfoDB = Instantiate(playerInfoDataBase);
+
         // 駒のセットを選択するためのDropdownのオブジェクトを取得
         playerMode = new GameObject[maxPlayerCount];
         for (int i = 0; i < maxPlayerCount; i++)
@@ -45,9 +49,9 @@ public class PlayerModeInfo : MonoBehaviour
         // 選択が0（NULL）だった場合返す
         if (selectedOption == 0) return;
 
-        var playerInfo = SetPlayerInfo(thisObj, selectedOption);
+        var playerInfoDB = SetPlayerInfo(thisObj, selectedOption);
 
-        JsonManager.Save<PlayerInfo>(playerInfo, "playerInfo");
+        runTimePlayerInfoDB = playerInfoDB;
     }
 
     /// <summary>
@@ -56,9 +60,9 @@ public class PlayerModeInfo : MonoBehaviour
     /// <param name="obj"></param>
     /// <param name="option"></param>
     /// <returns></returns>
-    private PlayerInfo SetPlayerInfo(GameObject obj, int option)
+    private PlayerInfoDataBase SetPlayerInfo(GameObject obj, int option)
     {
-        PlayerInfo playerInfo = new PlayerInfo
+        PlayerInfoDataBase playerInfoDB = new PlayerInfoDataBase
         {
             playerDatas = new List<PlayerDatas>()
         };
@@ -73,23 +77,9 @@ public class PlayerModeInfo : MonoBehaviour
                     komaSets = option,
                     currentKomaInKomaSets = 0
                 };
-                playerInfo.playerDatas.Add(playerDatas);
+                playerInfoDB.playerDatas.Add(playerDatas);
             }
         }
-        return playerInfo;
+        return playerInfoDB;
     }
-}
-
-[System.Serializable]
-public class PlayerInfo
-{
-    public List<PlayerDatas> playerDatas = new List<PlayerDatas>();
-}
-
-[System.Serializable]
-public class PlayerDatas
-{
-    public int playerID;
-    public int komaSets;
-    public int currentKomaInKomaSets;
 }

@@ -1,4 +1,5 @@
 using UnityEngine;
+
 [RequireComponent(typeof(Rigidbody))]
 public class KomaController : MonoBehaviour, IKomaAction
 {
