@@ -63,6 +63,7 @@ public class PlayerModeInfo : MonoBehaviour
     {
         int[] options = new int[maxPlayerCount];
         for (int i = 0; i < maxPlayerCount; i++)
+
         {
             var dropdown = playerMode[i].GetComponent<TMP_Dropdown>();
             int value = dropdown.value;

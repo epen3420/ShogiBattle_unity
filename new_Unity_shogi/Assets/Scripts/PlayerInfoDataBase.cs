@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "PlayerInfoDataBase", menuName = "Scriptable Objects/PlayerInfoDataBase")]
-
 public class PlayerInfoDataBase : ScriptableObject
 {
     public static PlayerInfoDataBase instance;
