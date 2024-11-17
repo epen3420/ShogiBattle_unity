@@ -4,92 +4,90 @@ using UnityEngine;
 
 public class PlayerModeInfo : MonoBehaviour
 {
-    private int maxPlayerCount = 4;
+    private int maxPlayerCount = 0;
     private GameObject[] playerMode;
 
     [SerializeField]
-    private GameObject playerModeParentObj;
+    private Transform playerModeParentObj;
 
 
-    private void Awake()
+    private void OnEnable()
     {
-        // 駒のセットを選択するためのDropdownのオブジェクトを取得
-        playerMode = new GameObject[maxPlayerCount];
-        for (int i = 0; i < maxPlayerCount; i++)
+        GetPlayerModeObj();
+    }
+
+    /// <summary>
+    /// 駒のセットを選択するためのDropdownのオブジェクトを取得
+    /// </summary>
+    private void GetPlayerModeObj()
+    {
+        int playerModeCount = playerModeParentObj.childCount;
+        playerMode = new GameObject[playerModeCount];
+        for (int i = 0; i < playerModeCount; i++)
         {
-            playerMode[i] = playerModeParentObj.transform.GetChild(i).gameObject;
+            playerMode[i] = playerModeParentObj.GetChild(i).gameObject;
         }
     }
 
     /// <summary>
-    /// playerCountの分だけDropdownのオブジェクトを有効化する関数
+    /// ボタンを押すとき、プレイヤー数とDropDownを設定する関数
     /// </summary>
     /// <param name="playerCount"></param>
-    public void SetPlayerModeDropDown(int playerCount)
+    public void SetPlayerCount(int playerCount)
     {
+        maxPlayerCount = playerCount;
         for (int i = 0; i < playerCount; i++)
         {
             playerMode[i].SetActive(true);
         }
     }
 
+    public PlayerInfoDataBase playerInfo;
     /// <summary>
-    /// DropDownから入力を取得しJsonファイルで出力する関数
+    /// ScriptableObjectを設定する関数
     /// </summary>
-    /// <param name="thisObj"></param>
-    public void SetPlayerMode(GameObject thisObj)
+    public void SetPlayerInfo()
     {
-        // DropDownからの入力を取得
-        TMP_Dropdown thisDropDown = thisObj.GetComponent<TMP_Dropdown>();
-        int selectedOption = thisDropDown.value;
-        // 選択が0（NULL）だった場合返す
-        if (selectedOption == 0) return;
-
-        var playerInfo = SetPlayerInfo(thisObj, selectedOption);
-
-        JsonManager.Save<PlayerInfo>(playerInfo, "playerInfo");
+        int[] dropdownOptions = GetDropDownOptions();
+        if (dropdownOptions == null)
+        {
+            //エラー処理、再度入力させる
+            Debug.Log("error");
+            return;
+        }
+        playerInfo = GeneratePlayerInfo(dropdownOptions);
+        Debug.Log($"Set PlayerInfo");
     }
 
-    /// <summary>
-    /// PlayerInfoを作りそれを返す関数
-    /// </summary>
-    /// <param name="obj"></param>
-    /// <param name="option"></param>
-    /// <returns></returns>
-    private PlayerInfo SetPlayerInfo(GameObject obj, int option)
+    private int[] GetDropDownOptions()
     {
-        PlayerInfo playerInfo = new PlayerInfo
+        int[] options = new int[maxPlayerCount];
+        for (int i = 0; i < maxPlayerCount; i++)
+
         {
-            playerDatas = new List<PlayerDatas>()
-        };
+            var dropdown = playerMode[i].GetComponent<TMP_Dropdown>();
+            int value = dropdown.value;
+            if (value == 0) return null;
+            options[i] = value;
+        }
+        return options;
+    }
+
+    private PlayerInfoDataBase GeneratePlayerInfo(int[] selectedOptions)
+    {
+        var playerInfoDB = ScriptableObject.CreateInstance<PlayerInfoDataBase>();
+        playerInfoDB.playerDatas = new List<PlayerDatas>();
 
         for (int i = 0; i < maxPlayerCount; i++)
         {
-            if (obj == playerMode[i])
+            PlayerDatas playerDatas = new PlayerDatas
             {
-                PlayerDatas playerDatas = new PlayerDatas
-                {
-                    playerID = i,
-                    komaSets = option,
-                    currentKomaInKomaSets = 0
-                };
-                playerInfo.playerDatas.Add(playerDatas);
-            }
+                playerID = i,
+                komaSets = selectedOptions[i] - 1,
+                currentKomaInKomaSets = 0
+            };
+            playerInfoDB.playerDatas.Add(playerDatas);
         }
-        return playerInfo;
+        return playerInfoDB;
     }
-}
-
-[System.Serializable]
-public class PlayerInfo
-{
-    public List<PlayerDatas> playerDatas = new List<PlayerDatas>();
-}
-
-[System.Serializable]
-public class PlayerDatas
-{
-    public int playerID;
-    public int komaSets;
-    public int currentKomaInKomaSets;
 }

@@ -1,0 +1,42 @@
+@startuml ShogiBattle
+    class PlayerInputManager {
+        +OnDrag()
+    }
+
+    namespace Player {
+        class PlayerManager {
+            +GenerateKomaDictionary()
+            +InstantiateKoma()
+        }
+
+        interface IKomaAction {
+            +Move(Vector3 moveVector)
+        }
+
+        class KomaController {
+        }
+    }
+
+    class GameManager {
+        +RaiseOnGenerateKomaEvent()
+        +RaiseOnInstantiateKomaEvent()
+    }
+
+    class GameEvent {
+        -Action listeners
+        +RegisterListener(listener: Action)
+        +UnregisterListener(listener: Action)
+        +Raise()
+    }
+
+    ' 関係を定義
+    GameManager --> GameEvent : "Raise"
+    PlayerManager --> GameEvent : "Register/Unregister Listener"
+    PlayerInputManager --> IKomaAction
+    KomaController .|> IKomaAction
+
+    ' ScriptableObjectの特性を示す（オプション）
+    note right of GameEvent
+        ScriptableObject
+    end note
+@enduml

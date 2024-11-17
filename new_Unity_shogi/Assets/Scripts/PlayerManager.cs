@@ -1,53 +1,41 @@
-using System.Collections;
+/* using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
 
-public class GameManager : MonoBehaviour
+public class PlayerManager : MonoBehaviour
 {
-    private const int maxPlayerCount = 4;
     private Vector3[] pos;
     private Quaternion[] quaternions;
-    private int playerCount = 3;
+    private int playerCount = 2;
     private Dictionary<KomaType, GameObject> komasDictionary = new Dictionary<KomaType, GameObject>();
+    private PlayerInfo playerInfo;
     private GameObject[] playersKoma;
     private GameObject boardObj;
-    private PlayerInfoDataBase playerInfoDB;
+
+
     [SerializeField]
     private KomaDataBase komaDataBase;
 
 
     private void Awake()
     {
-        // 下をリストで受け取るだから上の宣言も変える
-        playerInfoDB = PlayerInfoDataBase.instance;
+        playerInfo = JsonManager.LoadFromLocal<PlayerInfo>("playerInfo");
     }
 
     private IEnumerator Start()
     {
-        yield return StartCoroutine(GenerateKomaDictionary());
+        yield return GenerateKomaDictionary();
 
-        yield return StartCoroutine(InstantiateBoard());
+        yield return InstantiateBoard();
 
         GeneratePos();
-
-        StartCoroutine(GameManage());
     }
 
-    private IEnumerator GameManage()
+    private IEnumerator init()
     {
-        yield return InstantiateKoma(pos, quaternions);
-
-        /* 初期化処理
-            オブジェクトを設置
-
-        ラウンド終了を検知
-
-        リセット処理
-
-        もし最後まで行ってなかったら
-        GameManager(); */
+        yield return InstantiateKoma();
     }
 
     /// <summary>
@@ -61,7 +49,7 @@ public class GameManager : MonoBehaviour
         playersKoma = new GameObject[playerCount];
         for (int i = 0; i < playerCount; i++)
         {
-            KomaType generateKomaType = PlayerKomaType(i, playerInfoDB.playerDatas[i].currentKomaInKomaSets);
+            KomaType generateKomaType = PlayerKomaType(i, playerInfo.playerDatas[i].currentKomaInKomaSets);
             GameObject playerKoma = Instantiate(komasDictionary[generateKomaType], pos[i], rotation[i]);
             yield return playerKoma;
             playerKoma.transform.SetParent(this.transform);
@@ -105,28 +93,28 @@ public class GameManager : MonoBehaviour
     // プレイヤーIDと駒セットのListの要素番号を入れることでKomaTypeを返す関数
     private KomaType PlayerKomaType(int playerID, int komaNumInKomaSets)
     {
-        return komaDataBase.komaSetsList[playerInfoDB.playerDatas[playerID].komaSets].komaType[komaNumInKomaSets];
+        var playerInfo = JsonManager.LoadFromLocal<PlayerInfo>("playerInfo");
+        return komaDataBase.komaSetsList[playerInfo.playerDatas[playerID].komaSets].komaType[komaNumInKomaSets];
     }
-
 
     private void SetGradeKoma(int upPlayerID, int upNum)
     {
-        for (int i = 0; i < playerInfoDB.playerDatas.Count; i++)
+        for (int i = 0; i < playerInfo.playerDatas.Count; i++)
         {
-            if (playerInfoDB.playerDatas[i].playerID == upPlayerID)
+            if (playerInfo.playerDatas[i].playerID == upPlayerID)
             {
 
-                playerInfoDB.playerDatas[i].currentKomaInKomaSets += upNum;
+                playerInfo.playerDatas[i].currentKomaInKomaSets += upNum;
                 break;
             }
         }
+        JsonManager.Save(playerInfo, "playerInfo");
     }
 
     private void GeneratePos()
     {
         Bounds bounds = boardObj.GetComponent<Collider>().bounds;
-        float radius = Mathf.Min(bounds.extents.x, bounds.extents.z) - 0.5f;  // ボードの半径を計算
-
+        float radius = bounds.max.x - bounds.center.x - 0.5f;
 
         pos = new Vector3[playerCount];
         quaternions = new Quaternion[playerCount];
@@ -141,3 +129,4 @@ public class GameManager : MonoBehaviour
     }
 
 }
+ */
