@@ -6,10 +6,9 @@ using UnityEngine.ResourceManagement.AsyncOperations;
 
 public class GameManager : MonoBehaviour
 {
-    private const int maxPlayerCount = 4;
     private Vector3[] pos;
     private Quaternion[] quaternions;
-    private int playerCount = 3;
+    private int playerCount = 0;
     private Dictionary<KomaType, GameObject> komasDictionary = new Dictionary<KomaType, GameObject>();
     private GameObject[] playersKoma;
     private GameObject boardObj;
@@ -22,6 +21,7 @@ public class GameManager : MonoBehaviour
     {
         // 下をリストで受け取るだから上の宣言も変える
         playerInfoDB = PlayerInfoDataBase.instance;
+        playerCount = playerInfoDB.playerCount;
     }
 
     private IEnumerator Start()

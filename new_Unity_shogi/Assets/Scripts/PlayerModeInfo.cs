@@ -42,7 +42,6 @@ public class PlayerModeInfo : MonoBehaviour
         }
     }
 
-    public PlayerInfoDataBase playerInfo;
     /// <summary>
     /// ScriptableObjectを設定する関数
     /// </summary>
@@ -55,7 +54,7 @@ public class PlayerModeInfo : MonoBehaviour
             Debug.Log("error");
             return;
         }
-        playerInfo = GeneratePlayerInfo(dropdownOptions);
+        var playerInfo = GeneratePlayerInfo(dropdownOptions);
         Debug.Log($"Set PlayerInfo");
     }
 
@@ -76,6 +75,8 @@ public class PlayerModeInfo : MonoBehaviour
     private PlayerInfoDataBase GeneratePlayerInfo(int[] selectedOptions)
     {
         var playerInfoDB = ScriptableObject.CreateInstance<PlayerInfoDataBase>();
+
+        playerInfoDB.playerCount = maxPlayerCount;
         playerInfoDB.playerDatas = new List<PlayerDatas>();
 
         for (int i = 0; i < maxPlayerCount; i++)

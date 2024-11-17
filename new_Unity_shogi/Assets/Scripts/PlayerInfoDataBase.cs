@@ -15,6 +15,7 @@ public class PlayerInfoDataBase : ScriptableObject
         }
     }
 
+    public int playerCount;
     public List<PlayerDatas> playerDatas = new List<PlayerDatas>();
 }
 
