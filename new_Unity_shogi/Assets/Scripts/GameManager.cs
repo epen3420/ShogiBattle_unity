@@ -11,14 +11,17 @@ public class GameManager : MonoBehaviour
     private Quaternion[] quaternions;
     private int playerCount = 3;
     private Dictionary<KomaType, GameObject> komasDictionary = new Dictionary<KomaType, GameObject>();
-    private PlayerInfo playerInfo;
     private GameObject[] playersKoma;
     private GameObject boardObj;
+    private PlayerInfoDataBase playerInfoDB;
     [SerializeField]
     private KomaDataBase komaDataBase;
+
+
     private void Awake()
     {
-        playerInfo = JsonManager.LoadFromLocal<PlayerInfo>("playerInfo");
+        // 下をリストで受け取るだから上の宣言も変える
+        playerInfoDB = PlayerInfoDataBase.instance;
     }
 
     private IEnumerator Start()
@@ -34,8 +37,6 @@ public class GameManager : MonoBehaviour
 
     private IEnumerator GameManage()
     {
-
-
         yield return InstantiateKoma(pos, quaternions);
 
         /* 初期化処理
@@ -49,8 +50,6 @@ public class GameManager : MonoBehaviour
         GameManager(); */
     }
 
-
-
     /// <summary>
     /// playerInfo.jsonに保存されたcurrentKomaをposとrotationを指定して生成する関数
     /// </summary>
@@ -62,7 +61,7 @@ public class GameManager : MonoBehaviour
         playersKoma = new GameObject[playerCount];
         for (int i = 0; i < playerCount; i++)
         {
-            KomaType generateKomaType = PlayerKomaType(i, playerInfo.playerDatas[i].currentKomaInKomaSets);
+            KomaType generateKomaType = PlayerKomaType(i, playerInfoDB.playerDatas[i].currentKomaInKomaSets);
             GameObject playerKoma = Instantiate(komasDictionary[generateKomaType], pos[i], rotation[i]);
             yield return playerKoma;
             playerKoma.transform.SetParent(this.transform);
@@ -106,22 +105,21 @@ public class GameManager : MonoBehaviour
     // プレイヤーIDと駒セットのListの要素番号を入れることでKomaTypeを返す関数
     private KomaType PlayerKomaType(int playerID, int komaNumInKomaSets)
     {
-        return komaDataBase.komaSetsList[playerInfo.playerDatas[playerID].komaSets].komaType[komaNumInKomaSets];
+        return komaDataBase.komaSetsList[playerInfoDB.playerDatas[playerID].komaSets].komaType[komaNumInKomaSets];
     }
 
 
     private void SetGradeKoma(int upPlayerID, int upNum)
     {
-        for (int i = 0; i < playerInfo.playerDatas.Count; i++)
+        for (int i = 0; i < playerInfoDB.playerDatas.Count; i++)
         {
-            if (playerInfo.playerDatas[i].playerID == upPlayerID)
+            if (playerInfoDB.playerDatas[i].playerID == upPlayerID)
             {
 
-                playerInfo.playerDatas[i].currentKomaInKomaSets += upNum;
+                playerInfoDB.playerDatas[i].currentKomaInKomaSets += upNum;
                 break;
             }
         }
-        JsonManager.Save(playerInfo, "playerInfo");
     }
 
     private void GeneratePos()
