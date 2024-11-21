@@ -19,16 +19,15 @@ public class GameManager : MonoBehaviour
 
     private void Awake()
     {
-        // 下をリストで受け取るだから上の宣言も変える
         playerInfoDB = PlayerInfoDataBase.instance;
         playerCount = playerInfoDB.playerCount;
     }
 
     private IEnumerator Start()
     {
-        yield return StartCoroutine(GenerateKomaDictionary());
-
         yield return StartCoroutine(InstantiateBoard());
+
+        yield return StartCoroutine(GenerateKomaDictionary());
 
         GeneratePos();
 

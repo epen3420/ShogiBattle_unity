@@ -9,6 +9,8 @@ public class PlayerModeInfo : MonoBehaviour
 
     [SerializeField]
     private Transform playerModeParentObj;
+    [SerializeField]
+    private LoadingScene loadingScene;
 
 
     private void OnEnable()
@@ -48,6 +50,10 @@ public class PlayerModeInfo : MonoBehaviour
     public void SetPlayerInfo()
     {
         int[] dropdownOptions = GetDropDownOptions();
+        for (int i = 0; i < dropdownOptions.Length; i++)
+        {
+            Debug.Log(dropdownOptions[i]);
+        }
         if (dropdownOptions == null)
         {
             //エラー処理、再度入力させる
@@ -55,6 +61,7 @@ public class PlayerModeInfo : MonoBehaviour
             return;
         }
         var playerInfo = GeneratePlayerInfo(dropdownOptions);
+        ToGameScene();
         Debug.Log($"Set PlayerInfo");
     }
 
@@ -62,7 +69,6 @@ public class PlayerModeInfo : MonoBehaviour
     {
         int[] options = new int[maxPlayerCount];
         for (int i = 0; i < maxPlayerCount; i++)
-
         {
             var dropdown = playerMode[i].GetComponent<TMP_Dropdown>();
             int value = dropdown.value;
@@ -91,4 +97,12 @@ public class PlayerModeInfo : MonoBehaviour
         }
         return playerInfoDB;
     }
+
+    private void ToGameScene()
+    {
+        loadingScene.LoadNextScene("GameScene");
+    }
 }
+/*
+PlayerInfoが準備できたらStartボタンを表示するようにする
+*/
