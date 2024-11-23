@@ -17,14 +17,10 @@ public class GameManager : MonoBehaviour
     private KomaDataBase komaDataBase;
 
 
-    private void Awake()
+    private IEnumerator Start()
     {
         playerInfoDB = PlayerInfoDataBase.instance;
         playerCount = playerInfoDB.playerCount;
-    }
-
-    private IEnumerator Start()
-    {
         yield return StartCoroutine(InstantiateBoard());
 
         yield return StartCoroutine(GenerateKomaDictionary());
