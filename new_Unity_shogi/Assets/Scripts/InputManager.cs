@@ -1,13 +1,16 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class PlayerInputManager : MonoBehaviour
+public class InputManager : MonoBehaviour
 {
     private Vector2 startPos;
     private Vector2 endPos;
     private bool isDragging = false;
     private IKomaAction komaAction;
 
+    [SerializeField]
+    private PlayerInputManager playerInputManager;
+    [Header("Dragの倍率")]
     [SerializeField]
     private float dragMultiplier = 0.02f;
 
