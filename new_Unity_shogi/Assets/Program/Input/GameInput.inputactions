@@ -1,12 +1,12 @@
 {
-    "name": "PlayerInput",
+    "name": "GameInput",
     "maps": [
         {
-            "name": "Drag",
+            "name": "Player",
             "id": "333c9d4e-95ac-49ca-9a5f-3006543edf29",
             "actions": [
                 {
-                    "name": "New action",
+                    "name": "OnDrag",
                     "type": "Button",
                     "id": "faf75f09-448e-4290-a4bd-82d997fa15e5",
                     "expectedControlType": "",
@@ -23,7 +23,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "New action",
+                    "action": "OnDrag",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

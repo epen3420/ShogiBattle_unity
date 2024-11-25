@@ -7,9 +7,8 @@ public class InputManager : MonoBehaviour
     private Vector2 endPos;
     private bool isDragging = false;
     private IKomaAction komaAction;
+    private GameInput gameInput;
 
-    [SerializeField]
-    private PlayerInputManager playerInputManager;
     [Header("Dragの倍率")]
     [SerializeField]
     private float dragMultiplier = 0.02f;
@@ -18,6 +17,33 @@ public class InputManager : MonoBehaviour
     private void Awake()
     {
         komaAction = GetComponent<IKomaAction>();
+    }
+
+    // 有効化
+    private void OnEnable()
+    {
+        gameInput = new GameInput();
+        // Actionのコールバックを登録
+        gameInput.Player.OnDrag.started += OnDrag;
+        gameInput.Player.OnDrag.performed += OnDrag;
+        gameInput.Player.OnDrag.canceled += OnDrag;
+
+        // InputActionを有効化
+        // これをしないと入力を受け取れないことに注意
+        gameInput?.Enable();
+    }
+
+    // 無効化
+    private void OnDisable()
+    {
+        // Actionのコールバックを解除
+        gameInput.Player.OnDrag.started -= OnDrag;
+        gameInput.Player.OnDrag.performed -= OnDrag;
+        gameInput.Player.OnDrag.canceled -= OnDrag;
+
+        // 自身が無効化されるタイミングなどで
+        // Actionを無効化する必要がある
+        gameInput?.Disable();
     }
 
     public void OnDrag(InputAction.CallbackContext context)

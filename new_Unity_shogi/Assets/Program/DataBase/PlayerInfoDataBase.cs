@@ -7,7 +7,7 @@ public class PlayerInfoDataBase : ScriptableObject
 {
     public static PlayerInfoDataBase instance;
 
-    public void OnEnable()
+    private void OnEnable()
     {
         if (instance == null)
         {

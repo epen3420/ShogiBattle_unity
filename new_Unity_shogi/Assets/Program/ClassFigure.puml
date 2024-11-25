@@ -1,0 +1,43 @@
+@startuml ShogiBattle
+
+    class InputManager {
+        +OnDrag()
+    }
+
+    namespace Player {
+        interface IKomaAction{
+            +Move(Vector3 moveVector)
+        }
+
+        class KomaController{
+        }
+
+        class KomaManager{
+            +InitKomaManager()
+            +InstantiateKoma()
+            -PlayerKomaType(int playerID, int komaNumInKomaSets)
+            -SetGradeKoma(int upPlayerID, int upNum)
+            -GenerateKomaDictionary()
+            -GenerateKomaTransform()
+        }
+
+        class TurnManager{
+            +EnableKomaInput(int playerKoma)
+            +SwitchTurn(int skipCount)
+            -GetPlayerInputs()
+        }
+    }
+
+    class CameraController{
+        +MoveCamera(Transform[] komasTransform, int currentIndex, int nextIndex)
+    }
+
+    class GameManager {
+    }
+
+
+    ' 関係を定義
+    InputManager --> IKomaAction
+    KomaController .|> IKomaAction
+
+@enduml
