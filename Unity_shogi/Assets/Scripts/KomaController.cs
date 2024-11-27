@@ -1,41 +1,20 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class KomaController : MonoBehaviour/* , IGradeKoma */
+[RequireComponent(typeof(Rigidbody))]
+public class KomaController : MonoBehaviour, IKomaAction
 {
     private Rigidbody rb;
-    private float hitForceMultiplier = 10f; // スワイプの強さ
-
-    [SerializeField]
-    private int komaGrade = 0;
 
 
-    private void Start()
+    private void Awake()
     {
-        //Rigidbodyの取得
         rb = GetComponent<Rigidbody>();
     }
 
-    public void HitKoma(Vector3 distance)
+    public void Move(Vector3 moveVector)
     {
-        //スワイプの方向の算出
-        Vector3 hitDirection = -distance.normalized;
-        //スワイプの力の算出
-        float hitForce = distance.magnitude * hitForceMultiplier;
-        //Rigidbodyに力を加える
-        rb.AddForce(hitDirection * hitForce, ForceMode.Impulse);
+        rb.AddForce(moveVector, ForceMode.Impulse);
+
+        Debug.Log($"Koma move vector: {moveVector}");
     }
-
-    /*     public void UpGradeKoma(int upGradeNum)
-        {
-            if (komaGrade < 6)
-                komaGrade += upGradeNum;
-        }
-
-        public void DownGradeKoma(int downGradeNum)
-        {
-            if (komaGrade > 0)
-                komaGrade -= downGradeNum;
-        } */
 }

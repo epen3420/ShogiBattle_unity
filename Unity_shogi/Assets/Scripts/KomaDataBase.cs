@@ -1,25 +1,25 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "DataBase/KomaDataBase")]
+[CreateAssetMenu(fileName = "KomaDataBase", menuName = "Scriptable Objects/KomaDataBase")]
 public class KomaDataBase : ScriptableObject
 {
-    public List<KomaObjectDatas> komaObjectDatas;
-
-    public List<KomaObjectDatas> KomaDatas()
-    {
-        return komaObjectDatas;
-    }
+    public List<KomaDatas> komaDatasList = new List<KomaDatas>();
+    public List<KomaSets> komaSetsList = new List<KomaSets>();
 }
 
-[System.Serializable]
-public class KomaObjectDatas
+[Serializable]
+public class KomaDatas
 {
-    public string name;
-    public GameObject prefab;
-
+    public KomaType name;
     public float weight;
-    public KomaType komaType;
+}
+
+[Serializable]
+public class KomaSets
+{
+    public List<KomaType> komaType = new List<KomaType>();
 }
 
 public enum KomaType
@@ -33,13 +33,5 @@ public enum KomaType
     Gin,
     Kei,
     Kyou,
-    Hu,
-
-    //成
-    RyuOu,
-    RyuMa,
-    NariKin,
-    NariKei,
-    NariKyou,
-    ToKin
+    Hu
 }

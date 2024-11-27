@@ -1,56 +1,44 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class InputManager : MonoBehaviour
 {
-    private Vector3 GetMouseStartPos; // スワイプ位置の変数
-    private Vector3 GetMouseEndPos;
-    private Camera mainCamera; // カメラの定義
-    private KomaController komaController;
+    private Vector2 startPos;
+    private Vector2 endPos;
+    private bool isDragging = false;
+    private IKomaAction komaAction;
 
     [SerializeField]
-    private bool isPlayer = false;
-    public bool IsPlayer
+    private PlayerInputManager playerInputManager;
+    [Header("Dragの倍率")]
+    [SerializeField]
+    private float dragMultiplier = 0.02f;
+
+
+    private void Awake()
     {
-        set { isPlayer = value; }
+        komaAction = GetComponent<IKomaAction>();
     }
 
-
-    private void Start()
+    public void OnDrag(InputAction.CallbackContext context)
     {
-        mainCamera = Camera.main;
-        komaController = GetComponent<KomaController>();
-    }
-
-    private void Update()
-    {
-        //マウスクリック時
-        if (Input.GetMouseButtonDown(0))
+        if (context.started)
         {
-            //マウススワイプ開始時の位置の取得
-            GetMouseStartPos = Input.mousePosition;
+            // クリック開始
+            startPos = Mouse.current.position.ReadValue();
+            isDragging = true;
         }
-        //マウスクリックを離した時
-        else if (Input.GetMouseButtonUp(0))
+        else if (context.canceled && isDragging)
         {
-            //マウススワイプ終了時の位置の取得
-            GetMouseEndPos = Input.mousePosition;
-            //MainSceneManagerにスワイプの間隔を知らせる
-            komaController.HitKoma(GetMouseEndPos - GetMouseStartPos);
+            // クリック終了
+            endPos = Mouse.current.position.ReadValue();
+            isDragging = false;
+
+            // 方向ベクトル計算
+            Vector2 dragVector = -(endPos - startPos) * dragMultiplier;
+            Vector3 moveVector = new Vector3(dragVector.x, 0, dragVector.y);
+
+            komaAction.Move(moveVector);
         }
-    }
-
-    /// <summary>
-    /// スクリーンを基準に二点の三次元座標の距離を測る関数
-    /// </summary>
-    /// <returns></returns>
-    private Vector3 InputScreenDistance(Vector3 startPoint, Vector3 endPoint)
-    {
-        Vector3 screenStartPoint = mainCamera.WorldToScreenPoint(startPoint);
-        Vector3 screenEndPoint = mainCamera.WorldToScreenPoint(endPoint);
-
-        Vector3.Distance(screenStartPoint, screenEndPoint);
-        return Vector3.zero;
     }
 }
