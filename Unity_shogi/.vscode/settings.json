@@ -56,5 +56,5 @@
         "temp/": true,
         "Temp/": true
     },
-    "dotnet.defaultSolution": "new_Unity_shogi.sln"
+    "dotnet.defaultSolution": "Unity_shogi.sln"
 }
