@@ -99,6 +99,7 @@ GameObject:
   - component: {fileID: -1760348175370901503}
   - component: {fileID: -1954031066753472974}
   - component: {fileID: 9132536279894980016}
+  - component: {fileID: -3970524143367662013}
   m_Layer: 0
   m_Name: Hu
   m_TagString: Untagged
@@ -196,15 +197,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dragMultiplier: 0.02
-  playerAction:
-    m_Name: Player
-    m_Type: 0
-    m_ExpectedControlType: 
-    m_Id: 441ca603-1500-44b0-b33c-0529dbdbc647
-    m_Processors: 
-    m_Interactions: 
-    m_SingletonActionBindings: []
-    m_Flags: 0
+--- !u!114 &-3970524143367662013
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7946087331334682025}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a1a68ab94328e9d478c7fb7d2b6c3bff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8517242702754761323
 GameObject:
   m_ObjectHideFlags: 0

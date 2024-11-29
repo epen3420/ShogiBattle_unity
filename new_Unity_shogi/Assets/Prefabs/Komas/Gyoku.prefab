@@ -99,6 +99,7 @@ GameObject:
   - component: {fileID: -1331369003871244889}
   - component: {fileID: 2794661449911921132}
   - component: {fileID: 3716119716306997626}
+  - component: {fileID: 1781965798335080878}
   m_Layer: 0
   m_Name: Gyoku
   m_TagString: Untagged
@@ -196,15 +197,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dragMultiplier: 0.02
-  playerAction:
-    m_Name: Player
-    m_Type: 0
-    m_ExpectedControlType: 
-    m_Id: 9f4b1180-83d9-4897-8107-f48653236a3a
-    m_Processors: 
-    m_Interactions: 
-    m_SingletonActionBindings: []
-    m_Flags: 0
+--- !u!114 &1781965798335080878
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 206199428299305503}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a1a68ab94328e9d478c7fb7d2b6c3bff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8037058244565774784
 GameObject:
   m_ObjectHideFlags: 0

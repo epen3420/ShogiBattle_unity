@@ -185,6 +185,7 @@ GameObject:
   - component: {fileID: -6931513768406269955}
   - component: {fileID: -5044540843909065794}
   - component: {fileID: 1207121484006408021}
+  - component: {fileID: -5432587738823225116}
   m_Layer: 0
   m_Name: Kei
   m_TagString: Untagged
@@ -282,12 +283,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dragMultiplier: 0.02
-  playerAction:
-    m_Name: Player
-    m_Type: 0
-    m_ExpectedControlType: 
-    m_Id: 7c006b03-c93e-4cf9-83d6-3e88dcda7d15
-    m_Processors: 
-    m_Interactions: 
-    m_SingletonActionBindings: []
-    m_Flags: 0
+--- !u!114 &-5432587738823225116
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8244367126511873443}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a1a68ab94328e9d478c7fb7d2b6c3bff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

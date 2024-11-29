@@ -10,7 +10,7 @@ public class KomaManager : MonoBehaviour
     private int playerCount = 0;
     private Dictionary<KomaType, GameObject> komasDictionary = new Dictionary<KomaType, GameObject>();
     private PlayerInfoDataBase playerInfoDB;
-    private GameObject[] playersKoma;
+    public List<GameObject> playersKoma;
 
     private BoardManager boardManager;
     public BoardManager SetBoardManager
@@ -23,6 +23,21 @@ public class KomaManager : MonoBehaviour
     [SerializeField]
     private CameraController cameraController;
 
+
+    private void OnEnable()
+    {
+        KomaHP.OnKomaDeath += ObserveSurvivingPlayer;
+    }
+
+    private void OnDisable()
+    {
+        KomaHP.OnKomaDeath -= ObserveSurvivingPlayer;
+    }
+
+    private void ObserveSurvivingPlayer(GameObject koma)
+    {
+        DownGradeKoma(playersKoma.IndexOf(koma));
+    }
 
     public IEnumerator InitKomaManager()
     {
@@ -40,20 +55,24 @@ public class KomaManager : MonoBehaviour
         return komaDataBase.komaSetsList[playerInfoDB.playerDatas[playerID].komaSets].komaType[komaNumInKomaSets];
     }
 
-    public void SetGradeKoma(GameObject player, int upNum)
+    private void SetGradeKoma(int playerID, int upNum)
     {
-        for (int i = 0; i < playersKoma.Length; i++)
+        int currentKoma = playerInfoDB.playerDatas[playerID].currentKomaInKomaSets;
+        if (0 < currentKoma && 6 > currentKoma)
         {
-            if (player != playersKoma[i]) continue;
-
-            int currentKoma = playerInfoDB.playerDatas[i].currentKomaInKomaSets;
-            if (0 < currentKoma && 6 > currentKoma)
-            {
-                currentKoma += upNum;
-                playerInfoDB.playerDatas[i].currentKomaInKomaSets = currentKoma;
-                break;
-            }
+            currentKoma += upNum;
+            playerInfoDB.playerDatas[playerID].currentKomaInKomaSets = currentKoma;
         }
+    }
+
+    private void UpGradeKoma(int playerID)
+    {
+        SetGradeKoma(playerID, 1);
+    }
+
+    private void DownGradeKoma(int playerID)
+    {
+        SetGradeKoma(playerID, -1);
     }
 
     /// <summary>
@@ -64,17 +83,15 @@ public class KomaManager : MonoBehaviour
     /// <returns></returns>
     public IEnumerator InstantiateKoma()
     {
-        playersKoma = new GameObject[playerCount];
+        playersKoma = new List<GameObject>();
         for (int i = 0; i < playerCount; i++)
         {
             KomaType generateKomaType = PlayerKomaType(i, playerInfoDB.playerDatas[i].currentKomaInKomaSets);
             GameObject playerKoma = Instantiate(komasDictionary[generateKomaType], komasTransform[i]);
             yield return playerKoma;
             playerKoma.transform.SetParent(this.transform);
-            var playerKomaInfoManager = playerKoma.GetComponent<KomaInfoManager>();
-            playerKomaInfoManager.PlayerID = i;
 
-            playersKoma[i] = playerKoma;
+            playersKoma.Add(playerKoma);
             Debug.Log($"Instantiated koma: {playerKoma.name}");
         }
         Debug.Log("Finished instantiating all koma.");

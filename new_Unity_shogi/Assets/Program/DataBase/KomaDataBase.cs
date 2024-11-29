@@ -13,6 +13,7 @@ public class KomaDataBase : ScriptableObject
 public class KomaDatas
 {
     public KomaType name;
+    public GameObject koma;
     public float weight;
 }
 

@@ -99,6 +99,7 @@ GameObject:
   - component: {fileID: -3386463689860388882}
   - component: {fileID: 6435858427718741877}
   - component: {fileID: 5087760465803939760}
+  - component: {fileID: -5768061692396223139}
   m_Layer: 0
   m_Name: Hisya
   m_TagString: Untagged
@@ -196,15 +197,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dragMultiplier: 0.02
-  playerAction:
-    m_Name: Player
-    m_Type: 0
-    m_ExpectedControlType: 
-    m_Id: 99e47c47-2634-4e91-a2b9-4f1722289f57
-    m_Processors: 
-    m_Interactions: 
-    m_SingletonActionBindings: []
-    m_Flags: 0
+--- !u!114 &-5768061692396223139
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1625853042661329774}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a1a68ab94328e9d478c7fb7d2b6c3bff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &4687411223038783128
 GameObject:
   m_ObjectHideFlags: 0

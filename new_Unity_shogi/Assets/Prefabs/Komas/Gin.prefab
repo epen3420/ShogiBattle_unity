@@ -99,6 +99,7 @@ GameObject:
   - component: {fileID: -974146958415740801}
   - component: {fileID: -1619998955999392680}
   - component: {fileID: 7241371516991349689}
+  - component: {fileID: -4409331702719045233}
   m_Layer: 0
   m_Name: Gin
   m_TagString: Untagged
@@ -196,15 +197,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dragMultiplier: 0.02
-  playerAction:
-    m_Name: Player
-    m_Type: 0
-    m_ExpectedControlType: 
-    m_Id: 90693e32-b99f-407c-9eb5-23936f664db0
-    m_Processors: 
-    m_Interactions: 
-    m_SingletonActionBindings: []
-    m_Flags: 0
+--- !u!114 &-4409331702719045233
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5299780146581905094}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a1a68ab94328e9d478c7fb7d2b6c3bff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7719625785817804414
 GameObject:
   m_ObjectHideFlags: 0

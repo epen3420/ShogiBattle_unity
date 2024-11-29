@@ -185,6 +185,7 @@ GameObject:
   - component: {fileID: 8827894989620266890}
   - component: {fileID: -1646846790080309899}
   - component: {fileID: 8707557496962837799}
+  - component: {fileID: 698314870197980929}
   m_Layer: 0
   m_Name: Ou
   m_TagString: Untagged
@@ -282,12 +283,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dragMultiplier: 0.02
-  playerAction:
-    m_Name: Player
-    m_Type: 0
-    m_ExpectedControlType: 
-    m_Id: c5c55c96-bdde-4dda-9088-879bf3ede062
-    m_Processors: 
-    m_Interactions: 
-    m_SingletonActionBindings: []
-    m_Flags: 0
+--- !u!114 &698314870197980929
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5429548982317830146}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a1a68ab94328e9d478c7fb7d2b6c3bff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
