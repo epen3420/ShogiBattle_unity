@@ -1,0 +1,4 @@
+interface IDamageable
+{
+    void Death();
+}
