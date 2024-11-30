@@ -50,10 +50,6 @@ public class PlayerModeInfo : MonoBehaviour
     public void SetPlayerInfo()
     {
         int[] dropdownOptions = GetDropDownOptions();
-        for (int i = 0; i < dropdownOptions.Length; i++)
-        {
-            Debug.Log(dropdownOptions[i]);
-        }
         if (dropdownOptions == null)
         {
             //エラー処理、再度入力させる
@@ -87,12 +83,10 @@ public class PlayerModeInfo : MonoBehaviour
 
         for (int i = 0; i < maxPlayerCount; i++)
         {
-            PlayerDatas playerDatas = new PlayerDatas
-            {
-                playerID = i,
-                komaSets = selectedOptions[i] - 1,
-                currentKomaInKomaSets = 0
-            };
+            var playerDatas = ScriptableObject.CreateInstance<PlayerDatas>();
+            playerDatas.komaSets = selectedOptions[i] - 1;
+            playerDatas.currentKomaInKomaSets = 0;
+
             playerInfoDB.playerDatas.Add(playerDatas);
         }
         return playerInfoDB;

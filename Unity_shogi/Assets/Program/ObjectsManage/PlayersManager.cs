@@ -6,9 +6,9 @@ using UnityEngine.ResourceManagement.AsyncOperations;
 
 public class PlayersManager : MonoBehaviour
 {
-    private Dictionary<int, GameObject> playersKoma;
-    private Dictionary<KomaType, GameObject> komasDictionary = new Dictionary<KomaType, GameObject>();
-    private PlayerInfoDataBase playerInfoDB;
+    private Dictionary<KomaType, GameObject> komasDictionary;
+    private Dictionary<PlayerDatas, bool> komasDead;
+    public PlayerInfoDataBase playerInfoDB;
 
     private BoardManager boardManager;
     public BoardManager BoardManager
@@ -21,45 +21,58 @@ public class PlayersManager : MonoBehaviour
 
     private void OnEnable()
     {
-        KomaHP.OnKomaDeath += ObserveSurvivingPlayer;
+        playerInfoDB = PlayerInfoDataBase.instance;
     }
 
-    private void OnDisable()
+    public void Init()
     {
-        KomaHP.OnKomaDeath -= ObserveSurvivingPlayer;
-    }
-
-    private void ObserveSurvivingPlayer(GameObject koma)
-    {
-        DownGradeKoma(playersKoma.);
-    }
-
-    private void SetGradeKoma(int playerID, int upNum)
-    {
-        int currentKoma = playerInfoDB.playerDatas[playerID].currentKomaInKomaSets;
-        if (0 < currentKoma && 6 > currentKoma)
+        for (int i = 0; i < playerInfoDB.playerCount; i++)
         {
-            currentKoma += upNum;
-            playerInfoDB.playerDatas[playerID].currentKomaInKomaSets = currentKoma;
+            playerInfoDB.playerDatas[i].isDead = false;
         }
     }
 
-    private void UpGradeKoma(int playerID)
+    public bool IsDeadAll()
     {
-        SetGradeKoma(playerID, 1);
+        int isDeadCount = 0;
+        komasDead = new Dictionary<PlayerDatas, bool>();
+        for (int i = 0; i < playerInfoDB.playerCount; i++)
+        {
+            var datas = playerInfoDB.playerDatas[i];
+            if (datas.isDead)
+            {
+                komasDead.Add(datas, false);
+                isDeadCount++;
+            }
+            else
+            {
+                komasDead.Add(datas, true);
+            }
+        }
+        return playerInfoDB.playerCount - 1 <= isDeadCount;
     }
 
-    private void DownGradeKoma(int playerID)
+    /* public void SetGradeAllKoma()
     {
-        SetGradeKoma(playerID, -1);
+        for (int i = 0; i < playerInfoDB.playerCount; i++)
+        {
+            SetGradeKoma(playerInfoDB.playerDatas[i], komasDead[playerInfoDB.playerDatas[i]]);
+        }
     }
 
-    public IEnumerator InitKoma()
+    private void SetGradeKoma(PlayerDatas datas, bool isSurvive)
     {
-        playerInfoDB = PlayerInfoDataBase.instance;
-
-        yield return GenerateKomaDictionary();
-    }
+        int currentKoma = datas.currentKomaInKomaSets;
+        if (isSurvive)
+        {
+            currentKoma++;
+        }
+        else
+        {
+            currentKoma--;
+        }
+        datas.currentKomaInKomaSets = currentKoma;
+    } */
 
     /// <summary>
     /// playerInfo.jsonに保存されたcurrentKomaをposとrotationを指定して生成する関数
@@ -72,14 +85,15 @@ public class PlayersManager : MonoBehaviour
         int playerCount = playerInfoDB.playerCount;
         var komasTransform = boardManager.GenerateCircleTransform(playerCount);
 
-        playersKoma = new Dictionary<int, GameObject>();
         for (int i = 0; i < playerCount; i++)
         {
-            KomaType generateKomaType = PlayerKomaType(i, playerInfoDB.playerDatas[i].currentKomaInKomaSets);
+            var playerDatas = playerInfoDB.playerDatas[i];
+            KomaType generateKomaType = PlayerKomaType(i, playerDatas.currentKomaInKomaSets);
             GameObject playerKoma = Instantiate(komasDictionary[generateKomaType], komasTransform[i]);
             yield return playerKoma;
 
-            playersKoma.Add(i, playerKoma);
+            var playerKomaInfo = playerKoma.GetComponent<KomaHP>();
+            playerKomaInfo.Datas = playerDatas;
 
             playerKoma.transform.SetParent(this.transform);
 
@@ -97,8 +111,9 @@ public class PlayersManager : MonoBehaviour
     /// KomaTypeをKeyに、対応するValueにPrefabをするDictionaryを作る関数
     /// </summary>
     /// <returns></returns>
-    private IEnumerator GenerateKomaDictionary()
+    public IEnumerator GenerateKomaDictionary()
     {
+        komasDictionary = new Dictionary<KomaType, GameObject>();
         foreach (var komaData in komaDataBase.komaDatasList)
         {
             string objPath = komaData.name.ToString();

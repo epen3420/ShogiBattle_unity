@@ -475,7 +475,7 @@ GameObject:
   - component: {fileID: 2646534187559665936}
   - component: {fileID: 1660778169508808480}
   - component: {fileID: 6593426583513114538}
-  - component: {fileID: 2824973927446803408}
+  - component: {fileID: 1708512039828189306}
   m_Layer: 5
   m_Name: SceneLoad
   m_TagString: Untagged
@@ -566,7 +566,7 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
---- !u!114 &2824973927446803408
+--- !u!114 &1708512039828189306
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -575,7 +575,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 8186228647478986690}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b9489580b3bb206469564f5f87b5a27e, type: 3}
+  m_Script: {fileID: 11500000, guid: c10d0ecdfe1cefe46950f0cb5b2558db, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   loadingUI: {fileID: 765553849591134757}

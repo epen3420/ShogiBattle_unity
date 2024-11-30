@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -17,12 +16,4 @@ public class PlayerInfoDataBase : ScriptableObject
 
     public int playerCount;
     public List<PlayerDatas> playerDatas = new List<PlayerDatas>();
-}
-
-[Serializable]
-public class PlayerDatas
-{
-    public int playerID;
-    public int komaSets;
-    public int currentKomaInKomaSets;
 }

@@ -24,15 +24,7 @@ public class KomaManager : MonoBehaviour
     private CameraController cameraController;
 
 
-    private void OnEnable()
-    {
-        KomaHP.OnKomaDeath += ObserveSurvivingPlayer;
-    }
 
-    private void OnDisable()
-    {
-        KomaHP.OnKomaDeath -= ObserveSurvivingPlayer;
-    }
 
     private void ObserveSurvivingPlayer(GameObject koma)
     {

@@ -15,6 +15,10 @@ public class TurnManager : MonoBehaviour
     private int currentPlayer = 0;
 
 
+    /// <summary>
+    /// playerKoma以外のInputManagerを無効にする関数
+    /// </summary>
+    /// <param name="playerKoma"></param>
     public void EnableKomaInput(int playerKoma)
     {
         var playerInputs = GetComponentsInChildren<InputManager>(true);

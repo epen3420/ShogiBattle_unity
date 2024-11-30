@@ -1,23 +1,17 @@
-using System;
-using System.Collections;
 using UnityEngine;
 
 public class KomaHP : MonoBehaviour, IDamageable
 {
-    private PlayerDatas datas;
-    private GameObject komaObj;
-    public static Action<GameObject> OnKomaDeath;
-
-
-    public IEnumerator InstantiateKoma(GameObject obj, Transform transform)
+    public PlayerDatas datas;
+    public PlayerDatas Datas
     {
-        komaObj = Instantiate(obj, transform);
-        yield return komaObj;
+        set { datas = value; }
     }
+
 
     public void Death()
     {
-        OnKomaDeath?.Invoke(gameObject);
+        datas.isDead = true;
         Destroy(this.gameObject);
     }
 }
