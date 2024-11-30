@@ -9,16 +9,21 @@ public class GameManager : MonoBehaviour
     private KomaManager komaManager;
     [SerializeField]
     private TurnManager turnManager;
+    [SerializeField]
+    private PlayersManager playersManager;
 
 
     private IEnumerator Start()
     {
         yield return boardManager.InstantiateBoard();
 
-        komaManager.SetBoardManager = boardManager;
-        yield return komaManager.InitKomaManager();
+        // komaManager.SetBoardManager = boardManager;
+        playersManager.BoardManager = boardManager;
+        // yield return komaManager.InitKomaManager();
+        yield return playersManager.InitKoma();
 
-        yield return komaManager.InstantiateKoma();
+        // yield return komaManager.InstantiateKoma();
+        yield return playersManager.InstantiateKoma();
         turnManager.EnableKomaInput(0);
     }
 }

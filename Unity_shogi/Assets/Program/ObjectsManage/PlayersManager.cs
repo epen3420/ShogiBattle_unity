@@ -4,24 +4,19 @@ using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
 
-public class KomaManager : MonoBehaviour
+public class PlayersManager : MonoBehaviour
 {
-    private Transform[] komasTransform;
-    private int playerCount = 0;
+    private Dictionary<int, GameObject> playersKoma;
     private Dictionary<KomaType, GameObject> komasDictionary = new Dictionary<KomaType, GameObject>();
     private PlayerInfoDataBase playerInfoDB;
-    public List<GameObject> playersKoma;
 
     private BoardManager boardManager;
-    public BoardManager SetBoardManager
+    public BoardManager BoardManager
     {
         set { boardManager = value; }
     }
-
     [SerializeField]
     private KomaDataBase komaDataBase;
-    [SerializeField]
-    private CameraController cameraController;
 
 
     private void OnEnable()
@@ -36,23 +31,7 @@ public class KomaManager : MonoBehaviour
 
     private void ObserveSurvivingPlayer(GameObject koma)
     {
-        DownGradeKoma(playersKoma.IndexOf(koma));
-    }
-
-    public IEnumerator InitKomaManager()
-    {
-        playerInfoDB = PlayerInfoDataBase.instance;
-        playerCount = playerInfoDB.playerCount;
-
-        yield return GenerateKomaDictionary();
-
-        komasTransform = boardManager.GenerateCircleTransform(playerCount);
-    }
-
-    // プレイヤーIDと駒セットのListの要素番号を入れることでKomaTypeを返す関数
-    private KomaType PlayerKomaType(int playerID, int komaNumInKomaSets)
-    {
-        return komaDataBase.komaSetsList[playerInfoDB.playerDatas[playerID].komaSets].komaType[komaNumInKomaSets];
+        DownGradeKoma(playersKoma.);
     }
 
     private void SetGradeKoma(int playerID, int upNum)
@@ -75,6 +54,13 @@ public class KomaManager : MonoBehaviour
         SetGradeKoma(playerID, -1);
     }
 
+    public IEnumerator InitKoma()
+    {
+        playerInfoDB = PlayerInfoDataBase.instance;
+
+        yield return GenerateKomaDictionary();
+    }
+
     /// <summary>
     /// playerInfo.jsonに保存されたcurrentKomaをposとrotationを指定して生成する関数
     /// </summary>
@@ -83,18 +69,28 @@ public class KomaManager : MonoBehaviour
     /// <returns></returns>
     public IEnumerator InstantiateKoma()
     {
-        playersKoma = new List<GameObject>();
+        int playerCount = playerInfoDB.playerCount;
+        var komasTransform = boardManager.GenerateCircleTransform(playerCount);
+
+        playersKoma = new Dictionary<int, GameObject>();
         for (int i = 0; i < playerCount; i++)
         {
             KomaType generateKomaType = PlayerKomaType(i, playerInfoDB.playerDatas[i].currentKomaInKomaSets);
             GameObject playerKoma = Instantiate(komasDictionary[generateKomaType], komasTransform[i]);
             yield return playerKoma;
+
+            playersKoma.Add(i, playerKoma);
+
             playerKoma.transform.SetParent(this.transform);
 
-            playersKoma.Add(playerKoma);
             Debug.Log($"Instantiated koma: {playerKoma.name}");
         }
         Debug.Log("Finished instantiating all koma.");
+    }
+
+    private KomaType PlayerKomaType(int playerID, int komaNumInKomaSets)
+    {
+        return komaDataBase.komaSetsList[playerInfoDB.playerDatas[playerID].komaSets].komaType[komaNumInKomaSets];
     }
 
     /// <summary>
@@ -117,8 +113,3 @@ public class KomaManager : MonoBehaviour
         Debug.Log($"Generated KomaDictionary");
     }
 }
-/*
-プレイヤーの駒の把握
-Dictionary<id obj>
-
-*/
