@@ -3,11 +3,11 @@ using UnityEngine.InputSystem;
 
 public class InputManager : MonoBehaviour
 {
+    private IKomaAction iKomaAction;
+    private GameInput gameInput;
     private Vector2 startPos;
     private Vector2 endPos;
     private bool isDragging = false;
-    private IKomaAction komaAction;
-    private GameInput gameInput;
 
     [Header("Dragの倍率")]
     [SerializeField]
@@ -16,7 +16,7 @@ public class InputManager : MonoBehaviour
 
     private void Awake()
     {
-        komaAction = GetComponent<IKomaAction>();
+        iKomaAction = GetComponent<IKomaAction>();
     }
 
     // 有効化
@@ -46,6 +46,10 @@ public class InputManager : MonoBehaviour
         gameInput?.Disable();
     }
 
+    /// <summary>
+    /// ドラッグを検知してIKomaActionからMoveを実行
+    /// </summary>
+    /// <param name="context"></param>
     public void OnDrag(InputAction.CallbackContext context)
     {
         if (context.started)
@@ -64,7 +68,7 @@ public class InputManager : MonoBehaviour
             Vector2 dragVector = -(endPos - startPos) * dragMultiplier;
             Vector3 moveVector = new Vector3(dragVector.x, 0, dragVector.y);
 
-            komaAction.Move(moveVector);
+            iKomaAction.Move(moveVector);
         }
     }
 }

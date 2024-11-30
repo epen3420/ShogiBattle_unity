@@ -46,7 +46,7 @@ public class KomaManager : MonoBehaviour
 
         yield return GenerateKomaDictionary();
 
-        GenerateKomasTransform();
+        komasTransform = boardManager.GenerateCircleTransform(playerCount);
     }
 
     // プレイヤーIDと駒セットのListの要素番号を入れることでKomaTypeを返す関数
@@ -115,31 +115,5 @@ public class KomaManager : MonoBehaviour
             }
         }
         Debug.Log($"Generated KomaDictionary");
-    }
-
-    private void GenerateKomasTransform()
-    {
-        GameObject boardObj = boardManager.GetBoardObj;
-        Bounds bounds = boardObj.GetComponent<Collider>().bounds;
-        float radius = Mathf.Min(bounds.extents.x, bounds.extents.z) - 0.5f;  // ボードの半径を計算
-
-        komasTransform = new Transform[playerCount];
-        for (int i = 0; i < playerCount; i++)
-        {
-            // 新しい GameObject を生成して Transform を設定
-            GameObject komaObj = new GameObject($"Koma_{i + 1}");
-            Transform komaTransform = komaObj.transform;
-
-            // 座標と回転を計算して設定
-            float deg = 360f * (i + 1) / playerCount;
-            float radian = Mathf.Deg2Rad * (deg + 90);
-            komaTransform.position = new Vector3(radius * Mathf.Cos(radian), 1, radius * Mathf.Sin(radian));
-            komaTransform.position += bounds.center; // ボード中心を考慮
-            komaTransform.rotation = Quaternion.Euler(0.0f, -deg, 0.0f);
-
-            // 配列に Transform を保存
-            komasTransform[i] = komaTransform;
-        }
-        Debug.Log("Generated komas position.");
     }
 }
