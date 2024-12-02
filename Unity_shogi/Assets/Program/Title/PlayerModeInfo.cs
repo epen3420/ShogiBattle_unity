@@ -84,6 +84,7 @@ public class PlayerModeInfo : MonoBehaviour
         for (int i = 0; i < maxPlayerCount; i++)
         {
             var playerDatas = ScriptableObject.CreateInstance<PlayerDatas>();
+            playerDatas.name = $"{i + 1}";
             playerDatas.komaSets = selectedOptions[i] - 1;
             playerDatas.currentKomaInKomaSets = 0;
 

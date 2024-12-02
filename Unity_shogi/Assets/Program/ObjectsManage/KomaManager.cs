@@ -38,7 +38,6 @@ public class KomaManager : MonoBehaviour
 
         yield return GenerateKomaDictionary();
 
-        komasTransform = boardManager.GenerateCircleTransform(playerCount);
     }
 
     // プレイヤーIDと駒セットのListの要素番号を入れることでKomaTypeを返す関数

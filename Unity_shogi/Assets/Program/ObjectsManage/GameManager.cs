@@ -12,7 +12,7 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private PlayersManager playersManager;
 
-    private GameObject gameWinner;
+    private PlayerDatas gameWinner;
 
 
     private IEnumerator Start()
@@ -34,6 +34,7 @@ public class GameManager : MonoBehaviour
 
         yield return RoundEnding();
 
+        gameWinner = playersManager.ObserveGameWinner();
         if (gameWinner != null)
         {
             Debug.Log(gameWinner);
@@ -62,6 +63,7 @@ public class GameManager : MonoBehaviour
     private IEnumerator RoundEnding()
     {
         playersManager.Init();
+        playersManager.SetGradeAllKoma();
 
         yield return null;
     }

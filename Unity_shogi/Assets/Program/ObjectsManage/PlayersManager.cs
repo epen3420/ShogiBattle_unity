@@ -30,6 +30,25 @@ public class PlayersManager : MonoBehaviour
         {
             playerInfoDB.playerDatas[i].isDead = false;
         }
+
+        foreach (Transform child in transform)
+        {
+            //自分の子供をDestroyする
+            Destroy(child.gameObject);
+        }
+    }
+
+    public PlayerDatas ObserveGameWinner()
+    {
+        for (int i = 0; i < playerInfoDB.playerCount; i++)
+        {
+            var datas = playerInfoDB.playerDatas[i];
+            if (datas.currentKomaInKomaSets > 5)
+            {
+                return datas;
+            }
+        }
+        return null;
     }
 
     public bool IsDeadAll()
@@ -52,7 +71,7 @@ public class PlayersManager : MonoBehaviour
         return playerInfoDB.playerCount - 1 <= isDeadCount;
     }
 
-    /* public void SetGradeAllKoma()
+    public void SetGradeAllKoma()
     {
         for (int i = 0; i < playerInfoDB.playerCount; i++)
         {
@@ -71,8 +90,8 @@ public class PlayersManager : MonoBehaviour
         {
             currentKoma--;
         }
-        datas.currentKomaInKomaSets = currentKoma;
-    } */
+        datas.currentKomaInKomaSets = Mathf.Clamp(currentKoma, 0, 6);
+    }
 
     /// <summary>
     /// playerInfo.jsonに保存されたcurrentKomaをposとrotationを指定して生成する関数
@@ -83,13 +102,14 @@ public class PlayersManager : MonoBehaviour
     public IEnumerator InstantiateKoma()
     {
         int playerCount = playerInfoDB.playerCount;
-        var komasTransform = boardManager.GenerateCircleTransform(playerCount);
+        Vector3[] komasPos = boardManager.GenerateCirclePositions(playerCount);
+        Quaternion[] komasRot = boardManager.GenerateCircleRotations(playerCount);
 
         for (int i = 0; i < playerCount; i++)
         {
             var playerDatas = playerInfoDB.playerDatas[i];
             KomaType generateKomaType = PlayerKomaType(i, playerDatas.currentKomaInKomaSets);
-            GameObject playerKoma = Instantiate(komasDictionary[generateKomaType], komasTransform[i]);
+            GameObject playerKoma = Instantiate(komasDictionary[generateKomaType], komasPos[i], komasRot[i]);
             yield return playerKoma;
 
             var playerKomaInfo = playerKoma.GetComponent<KomaHP>();
