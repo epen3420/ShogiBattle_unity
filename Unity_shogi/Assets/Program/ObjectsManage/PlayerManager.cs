@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
@@ -7,7 +6,6 @@ public class PlayerManager : MonoBehaviour
 {
     private int currentKomaIndex = 0;
     private int maxIndex;
-    // インプットマネージャーのスクリプトを取得するリスト
     private PlayerDatas playerDatas;
     public PlayerDatas PlayerDatas
     {

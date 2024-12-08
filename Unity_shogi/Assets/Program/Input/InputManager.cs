@@ -14,8 +14,6 @@ public class InputManager : MonoBehaviour
     private float dragMultiplier = 0.02f;
 
 
-
-    // 有効化
     private void OnEnable()
     {
         iKomaAction = GetComponentInChildren<IKomaAction>();

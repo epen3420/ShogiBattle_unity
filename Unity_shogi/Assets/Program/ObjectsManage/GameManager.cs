@@ -24,6 +24,8 @@ public class GameManager : MonoBehaviour
         }
 
         currentState = newState;
+
+        currentState.EnterState(this);
     }
 
     // 状態遷移中に呼ばれるメソッド
@@ -31,7 +33,10 @@ public class GameManager : MonoBehaviour
     public async UniTask InitRound()
     {
         await boardManager.InstantiateBoard();
+        allPlayerManager.SetChildObjects(true);
         await allPlayerManager.InstantiateAllPlayerKoma();
+        allPlayerManager.TurnChange();
+        allPlayerManager.Init();
     }
     public async UniTask StartRound()
     {

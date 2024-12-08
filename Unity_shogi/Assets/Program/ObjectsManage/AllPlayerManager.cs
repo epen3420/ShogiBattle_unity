@@ -3,21 +3,22 @@ using Cysharp.Threading.Tasks;
 
 public class AllPlayerManager : MonoBehaviour
 {
-    private PlayerInfoDataBase playerInfoDB;
     private PlayerManager[] playerManagers;
+    private InputManager[] inputManagers;
     private int playerCount = 0;
-
+    private int currentPlayer = -1;
     [SerializeField]
     private BoardManager boardManager;
 
 
     private void Start()
     {
-        playerInfoDB = PlayerInfoDataBase.instance;
-        playerCount = playerInfoDB.playerCount;
-        SetChildObjects(true);
-        playerManagers = new PlayerManager[playerCount];
-        playerManagers = GetComponentsInChildren<PlayerManager>();
+        playerCount = PlayerInfoDataBase.instance.playerCount;
+    }
+
+    public void Init()
+    {
+        currentPlayer = -1;
     }
 
     public async UniTask InstantiateAllPlayerKoma()
@@ -26,7 +27,7 @@ public class AllPlayerManager : MonoBehaviour
         Quaternion[] playersRot = boardManager.GenerateCircleRotations(playerCount);
 
         var tasks = new UniTask<GameObject>[playerCount];
-        for (int i = 0; i < playerCount; i++)
+        for (int i = 0; i < playerManagers.Length; i++)
         {
             tasks[i] = playerManagers[i].GetNextKomaPrefab();
         }
@@ -38,11 +39,31 @@ public class AllPlayerManager : MonoBehaviour
         }
     }
 
-    private void SetChildObjects(bool isEnable)
+    public void TurnChange()
+    {
+        currentPlayer = (currentPlayer + 1) % playerCount;
+        for (int i = 0; i < playerCount; i++)
+        {
+            bool isEnable = (currentPlayer == i);
+            playerManagers[i].enabled = isEnable;
+        }
+    }
+
+    public void SetChildObjects(bool isEnable)
     {
         for (int i = 0; i < playerCount; i++)
         {
             transform.GetChild(i).gameObject.SetActive(isEnable);
+        }
+
+        playerManagers = new PlayerManager[playerCount];
+        playerManagers = GetComponentsInChildren<PlayerManager>();
+        inputManagers = new InputManager[playerCount];
+        inputManagers = GetComponents<InputManager>();
+
+        for (int i = 0; i < playerCount; i++)
+        {
+            playerManagers[i].PlayerDatas = PlayerInfoDataBase.instance.playerDatas[i];
         }
     }
 }
