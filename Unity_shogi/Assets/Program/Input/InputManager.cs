@@ -14,14 +14,17 @@ public class InputManager : MonoBehaviour
     private float dragMultiplier = 0.02f;
 
 
-    private void Awake()
-    {
-        iKomaAction = GetComponent<IKomaAction>();
-    }
 
     // 有効化
     private void OnEnable()
     {
+        iKomaAction = GetComponentInChildren<IKomaAction>();
+        if (iKomaAction == null)
+        {
+            Debug.LogWarning($"{iKomaAction} is NULL. So, check problem.");
+            enabled = false;
+        }
+
         gameInput = new GameInput();
         // Actionのコールバックを登録
         gameInput.Player.OnDrag.started += OnDrag;

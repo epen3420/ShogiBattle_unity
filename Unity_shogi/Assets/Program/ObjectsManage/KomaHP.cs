@@ -12,6 +12,7 @@ public class KomaHP : MonoBehaviour, IDamageable
     public void Death()
     {
         datas.isDead = true;
+
         Destroy(this.gameObject);
     }
 }

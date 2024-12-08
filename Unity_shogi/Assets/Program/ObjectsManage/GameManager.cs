@@ -1,70 +1,43 @@
-using System.Collections;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
+    private IGameState currentState;
+
     [SerializeField]
     private BoardManager boardManager;
     [SerializeField]
-    private KomaManager komaManager;
-    [SerializeField]
-    private TurnManager turnManager;
-    [SerializeField]
-    private PlayersManager playersManager;
+    private AllPlayerManager allPlayerManager;
 
-    private PlayerDatas gameWinner;
-
-
-    private IEnumerator Start()
+    public async void Start()
     {
-        yield return boardManager.InstantiateBoard();
-
-        playersManager.BoardManager = boardManager;
-
-        yield return playersManager.GenerateKomaDictionary();
-
-        StartCoroutine(GameLoop());
+        SetState(new RoundStartState());
+        await currentState.EnterState(this);
     }
 
-    private IEnumerator GameLoop()
+    public void SetState(IGameState newState)
     {
-        yield return RoundStarting();
-
-        yield return RoundPlaying();
-
-        yield return RoundEnding();
-
-        gameWinner = playersManager.ObserveGameWinner();
-        if (gameWinner != null)
+        if (currentState != null)
         {
-            Debug.Log(gameWinner);
+            currentState.ExitState(this);
         }
-        else
-        {
-            StartCoroutine(GameLoop());
-        }
+
+        currentState = newState;
     }
 
-    private IEnumerator RoundStarting()
+    // 状態遷移中に呼ばれるメソッド
+    public void DisplayRoundInfo() { /* ラウンド情報表示 */ }
+    public async UniTask InitRound()
     {
-        yield return playersManager.InstantiateKoma();
-
-        turnManager.EnableKomaInput(0);
+        await boardManager.InstantiateBoard();
+        await allPlayerManager.InstantiateAllPlayerKoma();
     }
-
-    private IEnumerator RoundPlaying()
+    public async UniTask StartRound()
     {
-        while (!playersManager.IsDeadAll())
-        {
-            yield return null;
-        }
     }
-
-    private IEnumerator RoundEnding()
-    {
-        playersManager.Init();
-        playersManager.SetGradeAllKoma();
-
-        yield return null;
-    }
+    public bool IsPlayerWin() { /* 勝敗判定 */ return false; }
+    public bool IsGameOver() { /* ゲーム終了判定 */ return false; }
+    public void AdvancePiece() { /* 駒を進める */ }
+    public void RetreatPiece() { /* 駒を戻す */ }
 }

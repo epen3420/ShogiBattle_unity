@@ -1,41 +1,48 @@
-using System.Collections;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
-using UnityEngine.ResourceManagement.AsyncOperations;
 
 public class BoardManager : MonoBehaviour
 {
-    private Bounds boardBounds;
+    private Bounds boardColBounds;
 
 
     /// <summary>
     /// AddressableからBoardを読み込みInstantiateする関数
     /// </summary>
-    public IEnumerator InstantiateBoard()
+    public async UniTask InstantiateBoard()
     {
-        var handle = Addressables.LoadAssetAsync<GameObject>("Board");
-        yield return handle;
-
-        GameObject boardObj;
-        if (handle.Status == AsyncOperationStatus.Succeeded)
+        try
         {
-            boardObj = Instantiate(handle.Result);
+            var handle = Addressables.LoadAssetAsync<GameObject>("Board");
+            GameObject loadedPrefab = await handle.Task;
+
+            if (loadedPrefab == null)
+            {
+                Debug.LogError($"Failed to load asset for Board");
+                return;
+            }
+
+            GameObject instance = Instantiate(loadedPrefab, Vector3.zero, Quaternion.identity);
+
+            instance.transform.SetParent(this.transform);
+
+            boardColBounds = instance.GetComponent<Collider>().bounds;
+            return;
         }
-        else
+        catch (System.Exception ex)
         {
-            Debug.LogError("Failed to load the board");
-            yield break;
+            Debug.LogError($"Exception occurred while loading Board: {ex.Message}");
+            return;
         }
 
-        boardObj.transform.SetParent(this.transform);
 
-        boardBounds = boardObj.GetComponent<Collider>().bounds;
     }
 
     public Vector3[] GenerateCirclePositions(int generateCount)
     {
         // ボードの半径を計算
-        float radius = Mathf.Min(boardBounds.extents.x, boardBounds.extents.z) - 0.5f;
+        float radius = Mathf.Min(boardColBounds.extents.x, boardColBounds.extents.z) - 0.5f;
 
         var positions = new Vector3[generateCount];
         for (int i = 0; i < generateCount; i++)
@@ -50,7 +57,7 @@ public class BoardManager : MonoBehaviour
             );
 
             // Boardの中心を考慮
-            positions[i] = position + boardBounds.center;
+            positions[i] = position + boardColBounds.center;
         }
         return positions;
     }
