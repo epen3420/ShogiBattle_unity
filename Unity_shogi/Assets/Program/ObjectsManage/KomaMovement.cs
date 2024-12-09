@@ -1,10 +1,10 @@
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
-public class KomaMovement : MonoBehaviour, IKomaAction
+public class KomaMovement : MonoBehaviour, IKomaAction, ITurnChangeable
 {
     private Rigidbody rb;
-    private bool isDragged = false;
+    private bool isMoving = false;
 
 
     private void Awake()
@@ -15,16 +15,20 @@ public class KomaMovement : MonoBehaviour, IKomaAction
     private void Update()
     {
         // 停止しているかどうかを確認
-        if (isDragged && Mathf.Approximately(rb.linearVelocity.magnitude, 0))
+        if (isMoving && Mathf.Approximately(rb.linearVelocity.magnitude, 0))
         {
-            TurnManager.instance.SwitchTurn(1);
-            isDragged = false;
+            isMoving = false;
         }
+    }
+
+    public bool IsStopping()
+    {
+        return !isMoving;
     }
 
     public void Move(Vector3 moveVector)
     {
-        isDragged = true;
+        isMoving = true;
         rb.AddForce(moveVector, ForceMode.Impulse);
     }
 }

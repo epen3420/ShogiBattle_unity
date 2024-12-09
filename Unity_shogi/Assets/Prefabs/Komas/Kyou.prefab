@@ -183,7 +183,6 @@ GameObject:
   - component: {fileID: 6464133560182066908}
   - component: {fileID: 3546585766500644804}
   - component: {fileID: 4127229332138776431}
-  - component: {fileID: 1872025471678858707}
   - component: {fileID: 1028526812482977319}
   m_Layer: 0
   m_Name: Kyou
@@ -257,19 +256,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &1872025471678858707
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6634601211094150094}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d0e7ef8af0ad7f84d967f401294976e5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  datas: {fileID: 0}
 --- !u!114 &1028526812482977319
 MonoBehaviour:
   m_ObjectHideFlags: 0

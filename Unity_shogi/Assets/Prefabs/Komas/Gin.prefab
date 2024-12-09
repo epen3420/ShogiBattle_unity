@@ -97,7 +97,6 @@ GameObject:
   - component: {fileID: 1613959198154747076}
   - component: {fileID: 8248483184786799360}
   - component: {fileID: 3267847061311846965}
-  - component: {fileID: 1476089113981538638}
   - component: {fileID: 2253279927692757416}
   m_Layer: 0
   m_Name: Gin
@@ -171,19 +170,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &1476089113981538638
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3343500430141969269}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d0e7ef8af0ad7f84d967f401294976e5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  datas: {fileID: 0}
 --- !u!114 &2253279927692757416
 MonoBehaviour:
   m_ObjectHideFlags: 0

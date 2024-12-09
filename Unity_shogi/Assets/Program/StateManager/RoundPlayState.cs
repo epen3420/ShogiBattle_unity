@@ -7,18 +7,9 @@ public class RoundPlayState : IGameState
     {
         Debug.Log("Round Playing...");
         await gameManager.StartRound(); // 駒の動作などを管理
-
-        // 勝敗判定
-        if (gameManager.IsPlayerWin())
-        {
-            gameManager.AdvancePiece(); // 次の駒に進む
-            gameManager.SetState(new RoundEndState());
-        }
-        else
-        {
-            gameManager.RetreatPiece(); // 駒を戻す
-            gameManager.SetState(new RoundEndState());
-        }
+        await UniTask.WaitUntil(() => gameManager.CanTurnChange());
+        gameManager.ExecuteTurnChange();
+        await UniTask.WaitUntil(() => gameManager.IsPlayerWin());
     }
 
     public UniTask ExitState(GameManager gameManager)

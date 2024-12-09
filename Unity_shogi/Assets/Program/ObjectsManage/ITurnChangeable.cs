@@ -1,0 +1,4 @@
+interface ITurnChangeable
+{
+    bool IsStopping();
+}

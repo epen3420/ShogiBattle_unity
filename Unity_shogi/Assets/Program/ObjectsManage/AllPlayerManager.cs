@@ -5,6 +5,7 @@ public class AllPlayerManager : MonoBehaviour
 {
     private PlayerManager[] playerManagers;
     private InputManager[] inputManagers;
+    private ITurnChangeable[] turnChangeables;
     private int playerCount = 0;
     private int currentPlayer = -1;
     [SerializeField]
@@ -39,14 +40,20 @@ public class AllPlayerManager : MonoBehaviour
         }
     }
 
+    public bool KomaIsStopping()
+    {
+        return turnChangeables[currentPlayer].IsStopping();
+    }
+
     public void TurnChange()
     {
         currentPlayer = (currentPlayer + 1) % playerCount;
-        for (int i = 0; i < playerCount; i++)
+        for (int i = 0; i < inputManagers.Length; i++)
         {
             bool isEnable = (currentPlayer == i);
-            playerManagers[i].enabled = isEnable;
+            inputManagers[i].enabled = isEnable;
         }
+        currentPlayer++;
     }
 
     public void SetChildObjects(bool isEnable)
@@ -59,7 +66,9 @@ public class AllPlayerManager : MonoBehaviour
         playerManagers = new PlayerManager[playerCount];
         playerManagers = GetComponentsInChildren<PlayerManager>();
         inputManagers = new InputManager[playerCount];
-        inputManagers = GetComponents<InputManager>();
+        inputManagers = GetComponentsInChildren<InputManager>();
+        turnChangeables = new ITurnChangeable[playerCount];
+        turnChangeables = GetComponentsInChildren<ITurnChangeable>();
 
         for (int i = 0; i < playerCount; i++)
         {

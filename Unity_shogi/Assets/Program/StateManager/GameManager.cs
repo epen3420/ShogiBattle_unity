@@ -10,10 +10,9 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private AllPlayerManager allPlayerManager;
 
-    public async void Start()
+    public void Start()
     {
         SetState(new RoundStartState());
-        await currentState.EnterState(this);
     }
 
     public void SetState(IGameState newState)
@@ -37,6 +36,14 @@ public class GameManager : MonoBehaviour
         await allPlayerManager.InstantiateAllPlayerKoma();
         allPlayerManager.TurnChange();
         allPlayerManager.Init();
+    }
+    public void ExecuteTurnChange()
+    {
+        allPlayerManager.TurnChange();
+    }
+    public bool CanTurnChange()
+    {
+        return allPlayerManager.KomaIsStopping();
     }
     public async UniTask StartRound()
     {
